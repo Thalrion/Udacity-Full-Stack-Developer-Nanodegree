@@ -16,6 +16,7 @@ Used tech stack:
 - Frontend: HTML, CSS, and Javascript with Bootstrap 3
 
 Applied contepts:
+- How to use Git Bash & Github as version control Tool.
 - Configure local database and connect it to a web application
 - Create Model Schemas with columns and relationships (1:1, 1:n and N:N)
 - Use SQLAlchemy ORM with PostgreSQL to Query, Insert, Edit & Delete Data
