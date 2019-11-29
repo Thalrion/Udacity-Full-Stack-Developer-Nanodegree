@@ -1,3 +1,2 @@
-# Travel Destinations
+# FSND Full-Stack-Developer Project Submissions
 
-A simple app to keep track of destinations I'd like to visit.
