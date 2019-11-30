@@ -1,9 +1,19 @@
+"""
+Contains WTFforms with fields and their respective validation logic
+"""
+
 from datetime import datetime
 from flask_wtf import Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField
 from wtforms.validators import DataRequired, AnyOf, URL
 
 class ShowForm(Form):
+    """
+    Form to create and edit new Shows.
+    Corresponding HTML: 
+        - templates/forms/new_show.html
+        - templates/forms/edit_show.html
+    """
     artist_id = StringField(
         'artist_id'
     )
@@ -17,6 +27,12 @@ class ShowForm(Form):
     )
 
 class VenueForm(Form):
+    """
+    Form to create and edit new Venues.
+    Corresponding HTML: 
+        - templates/forms/new_venue.html
+        - templates/forms/edit_venue.html
+    """
     name = StringField(
         'name', validators=[DataRequired()]
     )
@@ -120,6 +136,12 @@ class VenueForm(Form):
     )
 
 class ArtistForm(Form):
+    """
+    Form to create and edit new Artists.
+    Corresponding HTML: 
+        - templates/forms/new_artist.html
+        - templates/forms/edit_artist.html
+    """
     name = StringField(
         'name', validators=[DataRequired()]
     )
