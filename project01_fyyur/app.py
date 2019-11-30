@@ -309,8 +309,7 @@ def edit_artist(artist_id):
   form.city.data = artist.city
   form.state.data = artist.state
   form.phone.data = artist.phone
-  print(artist.genres)
-  form.genres.data = [artist.genres]
+  form.genres.data = artist.genres
   form.facebook_link.data = artist.facebook_link
 
   # TODO DONE: populate form with fields from artist with ID <artist_id>
