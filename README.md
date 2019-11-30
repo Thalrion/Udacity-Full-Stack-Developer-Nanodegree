@@ -2,7 +2,7 @@
 
 Portfolio of Projects from the Udacity-FSND.
 
-Successor of my first Udacity Nanodegree [Intro to Programming](https://github.com/Thalrion/Udacity-Intro-to-Programming-Nanodegree/blob/master/README.md).
+Successor of my first Udacity Nanodegree [Intro to Programming](https://github.com/Thalrion/Udacity-Intro-to-Programming-Nanodegree).
 
 ### Project 1: Booking Site Fy-yur
 
