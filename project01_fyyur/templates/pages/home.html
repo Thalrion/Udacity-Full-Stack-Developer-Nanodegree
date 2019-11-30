@@ -23,26 +23,26 @@
 	</div>
 </div>
 <section>
-		<h2 class="monospace">Recent Artists:</h2>
+		<h2 class="monospace">Recent Venues:</h2>
 		<div class="row">
 				{%for venue in recent_venues %}
 			<div class="col-sm-4">
 				<div class="tile tile-show">
 					<img src="{{ venue.image_link }}" alt="Venue Image" />
-					<h5><a href="/artists/{{ venue.id }}">{{ venue.name }}</a></h5>
+					<h5><a href="/venues/{{ venue.id }}">{{ venue.name }}</a></h5>
 				</div>
 			</div>
 			{% endfor %}
 		</div>
 	</section>
 	<section>
-			<h2 class="monospace">Recent Venues:</h2>
+			<h2 class="monospace">Recent Artists:</h2>
 		<div class="row">
 			{%for artist in recent_artists %}
 			<div class="col-sm-4">
 				<div class="tile tile-show">
 					<img src="{{ artist.image_link }}" alt="Artist Image" />
-					<h5><a href="/artists/{{ artist_id }}">{{ artist.name }}</a></h5>
+					<h5><a href="/artists/{{ artist.id }}">{{ artist.name }}</a></h5>
 				</div>
 			</div>
 			{% endfor %}
