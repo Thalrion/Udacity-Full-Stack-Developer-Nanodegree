@@ -185,7 +185,7 @@ def create_venue_submission():
         state = request.form['state'],
         address = request.form['address'],
         phone = request.form['phone'],
-        genres = request.form.getlist['genres'],
+        genres = request.form.getlist('genres'),
         facebook_link = request.form['facebook_link']
         )
       db.session.add(newVenue)
@@ -198,7 +198,7 @@ def create_venue_submission():
       # e.g., flash('An error occurred. Venue ' + data.name + ' could not be listed.')
       # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
       print(e)
-      flash('An error occurred due to database insertion error. Venue {} could not be listed.'.format(newVenue.name))
+      flash('An error occurred due to database insertion error. Venue {} could not be listed.'.format(request.form['name']))
     finally:
       # Always close session
       db.session.close()
@@ -310,7 +310,7 @@ def edit_artist(artist_id):
   form.state.data = artist.state
   form.phone.data = artist.phone
   print(artist.genres)
-  form.genres.data = artist.genres
+  form.genres.data = [artist.genres]
   form.facebook_link.data = artist.facebook_link
 
   # TODO DONE: populate form with fields from artist with ID <artist_id>
@@ -360,7 +360,7 @@ def edit_venue_submission(venue_id):
   venue.state = request.form['state'],
   venue.address = request.form['address'],
   venue.phone = request.form['phone'],
-  venue.genres = request.form.getList['genres'],
+  venue.genres = request.form.getlist('genres'),
   venue.facebook_link = request.form['facebook_link']
   db.session.add(venue)
   db.session.commit()
@@ -391,7 +391,7 @@ def create_artist_submission():
         state = request.form['state'],
         phone = request.form['phone'],
         facebook_link = request.form['facebook_link'],
-        genres = request.form.getlist['genres']
+        genres = request.form.getlist('genres')
         )
       db.session.add(newArtist)
       db.session.commit()
@@ -403,7 +403,7 @@ def create_artist_submission():
       # e.g., flash('An error occurred. Artist ' + data.name + ' could not be listed.')
       # see: http://flask.pocoo.org/docs/1.0/patterns/flashing/
       print(e)
-      flash('An error occurred due to database insertion error. Artist {} could not be listed.'.format(newArtist.name))
+      flash('An error occurred due to database insertion error. Artist {} could not be listed.'.format(request.form['name']))
     finally:
       # Always close session
       db.session.close()
