@@ -6,7 +6,10 @@ Successor of my first Udacity Nanodegree [Intro to Programming](https://github.c
 
 ### Project 1: Booking Site Fy-yur
 
-Aim of the project was to build a full-stack App with Flask and Boostrap.
+est. time spent: `32 hours` (including pre-courses)
+
+Aim of the project was to build a full-stack Web App with Flask and Boostrap which enables
+Venues & Artists to list themselves and arrange Shows together.
 
 Used tech stack:
 - SQLAlchemy ORM as ORM library of choice
@@ -21,7 +24,7 @@ Applied contepts:
 - Create Model Schemas with columns and relationships (1:1, 1:n and N:N)
 - Use SQLAlchemy ORM with PostgreSQL to query, insert, edit & delete Data
 - Use WTForms to encapsulate input forms in seperate file & to allow for custom validations
-- Use Boostrap as a simple to use Front End Libary
+- Use Boostrap as a simple to use Front End Libary and Ajax to fetch flask routes
 - Create SQL-like Queries, but without any SQL syntax, only using SQLAlchemy ORM
 - How to clearly structurize a larger web application in different files & folders
 
