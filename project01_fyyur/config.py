@@ -8,4 +8,4 @@ DEBUG = True
 
 # Connect to the database
 # TODO DONE: IMPLEMENT DATABASE URL
-SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:silbermond1@localhost:5432/fyyur'
+SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:testpassword123@localhost:5432/fyyur'
