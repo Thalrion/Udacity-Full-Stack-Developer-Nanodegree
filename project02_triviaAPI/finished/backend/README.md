@@ -44,7 +44,7 @@ $ createdb trivia_test
 $ psql trivia_test < trivia.psql
 $ python test_flaskr.py
 ```
-If you choose to all tests, it should give this response:
+If you choose to run all tests, it should give this response if everything went fine:
 ```bash
 $ python test_flaskr.py
 C:\Python36\lib\site-packages\sqlalchemy\util\langhelpers.py:217: 
@@ -230,16 +230,16 @@ it will insert a new question into the database.
     4. **boolean** `success`
   - if you inserted:
     1. List of dict of all questions with following fields:
-        - **integer** `id`
+        - **integer** `id` 
         - **string** `question`
         - **string** `answer`
         - **string** `category`
         - **integer** `difficulty`
     2. **integer** `total_questions`
-    3. **integer** `created` 
+    3. **integer** `created`  id from inserted question
     4. **boolean** `success`
 
-#### Example response:
+#### Example response
 Search Questions
 ```js
 {
@@ -337,6 +337,46 @@ will return
   "success": false
 }
 ```
+# <a name="delete-questions"></a>
+### 3. DELETE /questions/<question_id>
+
+Delete Questions
+```bash
+curl -X DELETE http://127.0.0.1:5000/questions/10
+```
+- Deletes specific question based on given id
+- Request Arguments: 
+  - **integer** question_id
+- Request Headers : **None**
+- Returns: 
+    - **integer** `deleted` Id from deleted question.
+    - **boolean** `success`
+
+
+#### Example response
+```js
+{
+  "deleted": 10,
+  "success": true
+}
+```
+
+### Errors
+
+If you try to delete a question which does not exist, it will throw an `400` error:
+
+```bash
+curl -X DELETE http://127.0.0.1:5000/questions/7
+```
+will return
+```js
+{
+  "error": 400,
+  "message": "Question with id 7 does not exist.",
+  "success": false
+}
+```
+
 # <a name="get-categories"></a>
 ### 5. GET /categories
 
