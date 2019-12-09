@@ -762,7 +762,6 @@ def server_error(error):
     '''
     return render_template('errors/500.html'), 500
 
-
 if not app.debug:
     # if app is not in debug mode, fill error.log
     file_handler = FileHandler('error.log')
