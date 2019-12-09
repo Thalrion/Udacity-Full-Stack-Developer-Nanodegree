@@ -7,7 +7,8 @@
 ## Start Project locally
 
 Make sure that you `cd` into the backend folder before following the setup steps.
-Also, you need the latest version of 
+Also, you need the latest version of [Python 3]([#api-documentation](https://www.python.org/downloads/)) 
+and [postgres](https://www.postgresql.org/download/) installed on your machine.
 
 To start and run the local development server,
 
@@ -25,10 +26,27 @@ $ pip install -r requirements.txt
 
 3. With Postgres running, restore a database using the trivia.psql file provided.
 ```bash
+$ createdb trivia
+$ createdb trivia_test
 $ psql trivia < trivia.psql
 ```
 
-4. Run the development server:
+4. Change database config so it can connect to your local postgres database
+- Open `config.py` with your editor of choice. 
+- Here you can see this dict:
+ ```python
+ database_setup = {
+    "database_name_production" : "trivia",
+    "database_name_test" : "trivia_test",
+    "user_name" : "postgres", # default postgres user name
+    "password" : "mypassword123", # if applicable. If no password, just type in None
+    "port" : "localhost:5432" # default postgres port
+}
+ ```
+ - Just change `user_name`, `password` and `port` to whatever you choose while installing postgres.
+>_tip_: `user_name` usually defaults to `postgres` and `port` always defaults to `localhost:5432` while installing postgres, most of the time you just need to change the `password`.
+
+1. Run the development server:
   ```bash 
   $ export FLASK_APP=flaskr
   $ export FLASK_ENV=development # enables debug mode
@@ -387,7 +405,7 @@ curl -X POST http://127.0.0.1:5000/quizzes -d '{"previous_questions" : [1, 2, 5]
 - Plays quiz game by providing a list of already asked questions and a category to ask for a fitting, random question.
 - Request Arguments: **None**
 - Request Headers : 
-     1. **list** `previous_questions` (optional) with **integer** ids from already asked questions
+     1. **list** `previous_questions` with **integer** ids from already asked questions
      1. **dict** `quiz_category` (optional) with keys:
         1.  **string** type
         2. **integer** id from category
@@ -419,13 +437,13 @@ curl -X POST http://127.0.0.1:5000/quizzes -d '{"previous_questions" : [1, 2, 5]
 If you try to play the quiz game without a a valid JSON body, it will response with an  `400` error.
 
 ```bash
-curl -X POST http://127.0.0.1:5000/quizzes -d '{"quiz_category" : {"type" : "Science", "id" : "1"}} ' -H 'Content-Type: application/json'
+curl -X POST http://127.0.0.1:5000/quizzes
 ```
 will return
 ```js
 {
   "error": 400,
-  "message": "Please provide a list \"previous_questions\" with previous asked question ids (or at least an empty list)",
+  "message": "Please provide a JSON body with previous question Ids and optional category.",
   "success": false
 }
 
