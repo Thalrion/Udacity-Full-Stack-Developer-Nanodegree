@@ -58,7 +58,7 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'resource not found')
 
 #----------------------------------------------------------------------------#
-# Tests for /categories/<int:category_id>/questions GET
+# Tests for /categories/<string:category_id>/questions GET
 #----------------------------------------------------------------------------#
     def test_get_questions_from_category(self):
         """Test GET all questions from selected category."""
@@ -148,7 +148,7 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'No questions that contains "there is no question with such a string in it" found.')
+        self.assertEqual(data['message'], 'no questions that contains "there is no question with such a string in it" found.')
 
 #----------------------------------------------------------------------------#
 # BONUS: Tests for /categories POST
@@ -173,7 +173,7 @@ class TriviaTestCase(unittest.TestCase):
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 400)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['message'], 'no body provided.')
+        self.assertEqual(data['message'], 'request does not contain a valid JSON body.')
 
 #----------------------------------------------------------------------------#
 # Tests for /categories GET

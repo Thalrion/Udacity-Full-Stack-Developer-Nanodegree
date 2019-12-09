@@ -19,14 +19,14 @@ To start and run the local development server,
   ```
 
 2. Install the dependencies:
-  ```bash
-  $ pip install -r requirements.txt
-  ```
+```bash
+$ pip install -r requirements.txt
+```
 
 3. With Postgres running, restore a database using the trivia.psql file provided.
-    ```bash
-    $ psql trivia < trivia.psql
-    ```
+```bash
+$ psql trivia < trivia.psql
+```
 
 4. Run the development server:
   ```bash 
@@ -37,13 +37,26 @@ To start and run the local development server,
 
 >_tip_: Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` directory and the `__init__.py` file to find the application. 
 
-5. To execite the tests, run
+5. (optional) To execute tests, run
 ```bash 
 $ dropdb trivia_test
 $ createdb trivia_test
 $ psql trivia_test < trivia.psql
 $ python test_flaskr.py
 ```
+If you choose to all tests, it should give this response:
+```bash
+$ python test_flaskr.py
+C:\Python36\lib\site-packages\sqlalchemy\util\langhelpers.py:217: 
+  loader = self.auto_fn(name)
+......................
+----------------------------------------------------------------------
+Ran 22 tests in 6.748s
+
+OK
+
+```
+
 <a name="api-documentaton"></a>
 ## API Documentation
 
@@ -55,7 +68,7 @@ Additionally, common pitfalls & error messages are explained, if applicable.
 
 Since this API is not hosted on a specific domain, it can only be accessed when
 `flask` is run locally. To make requests to the API via `curl` or `postman`,
-you need to use the default domain, on which the flask server is running
+you need to use the default domain on which the flask server is running.fgv
 
 **_http://127.0.0.1:5000/_**
 
@@ -77,13 +90,13 @@ Click on a link to directly get to the ressource.
 
 1. Questions
    1. [GET /questions](#get-questions)
-   2. [POST /questions](#search-questions)
+   2. [POST /questions](#post-questions)
    3. [DELETE /questions/<question_id>](#delete-questions)
 2. Quizzes
    1. [POST /quizzes](#post-quizzes)
 3. Categories
-   1. [GET /categories](#categories)
-   2. [GET /categories/<category_id>/questions](#get-questions)
+   1. [GET /categories](#get-categories)
+   2. [GET /categories/<category_id>/questions](#get-categories-questions)
    3. [POST /categories](#post-categories)
    4. [DELETE /categories](#delete-categories)
 
@@ -117,7 +130,7 @@ $ curl -X GET http://127.0.0.1:5000/questions?page1
   4. **integer** `total_questions`
   5. **boolean** `success`
 
-#### Example response:
+#### Example response
 ```js
 {
 "categories": [
@@ -178,7 +191,7 @@ will return
 
 ```
 
-
+# <a name="post-questions"></a>
 ### 2. POST /questions
 
 Search Questions
@@ -324,7 +337,7 @@ will return
   "success": false
 }
 ```
-
+# <a name="get-categories"></a>
 ### 5. GET /categories
 
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
