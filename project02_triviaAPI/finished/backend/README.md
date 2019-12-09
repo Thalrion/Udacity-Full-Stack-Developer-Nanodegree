@@ -57,7 +57,7 @@ Since this API is not hosted on a specific domain, it can only be accessed when
 `flask` is run locally. To make requests to the API via `curl` or `postman`,
 you need to use the default domain, on which the flask server is running
 
-`
+**_http://127.0.0.1:5000/_**
 
 ### Available Endpoints
 
@@ -65,7 +65,7 @@ Here is a short table about which ressources exist and which method you can use 
 
                           Allowed Methods
        Endpoints    |  GET |  POST |  DELETE | 
-                    |------|------ |---------|
+                    |------|-------|---------|
       /questions    |  [x] |  [x]  |   [x]   |         
       /categories   |  [x] |  [x]  |   [x]   |           
       /quizzes      |      |  [x]  |         | 
@@ -84,9 +84,71 @@ Endpoints
 8. DELETE   '/categories'
 
 
-`GET '/questions'`
+**_1. GET '/questions'_**
 
-`GET '/categories'`
+```bash
+curl -X GET http://127.0.0.1:5000/questions
+```
+- Fetches a list of dictionaries of questions in which the keys are the ids and all available fields, a list of all categories and number of total questions.
+- Request Arguments: None
+- Returns: 
+1. List of dict of questions with following fields:
+    <integer> id
+    <string> question
+    <string> answer
+    <string> category
+    <integer> difficulty
+2. <list> all categories
+3. <list> current categories
+4. <integer> Total number of questions
+5. <boolean> Success
+
+Example response:
+```js
+"categories": [
+    "Science",
+    "Art",
+    "Geography",
+    "History",
+    "Entertainment",
+    "Sports"
+  ],
+  "current_category": [
+    "Science",
+    "Art",
+    "Geography",
+    "History",
+    "Entertainment",
+    "Sports"
+  ],
+  "questions": [
+    {
+      "answer": "Apollo 13",
+      "category": 5,
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+    {
+      "answer": "Tom Cruise",
+      "category": 5,
+      "difficulty": 4,
+      "id": 4,
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },
+
+ [...]
+
+  ],
+  "success": true,
+  "total_questions": 19
+}
+```
+
+
+
+**_5. GET '/categories'_**
+
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
 - Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
