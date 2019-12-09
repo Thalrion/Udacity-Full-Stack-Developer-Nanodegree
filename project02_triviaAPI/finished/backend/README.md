@@ -36,8 +36,7 @@ To start and run the local development server,
 
 >_tip_: Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` directory and the `__init__.py` file to find the application. 
 
-5. Testing
-To run the tests, run
+5. To execite the tests, run
 ```bash 
 $ dropdb trivia_test
 $ createdb trivia_test
@@ -74,7 +73,7 @@ Here is a short table about which ressources exist and which method you can use 
 ### How to work with each endpoint
 
 Endpoints
-1. GET      '/questions'
+1. [GET '/questions'](#get-questions)
 2. POST     '/questions'
 3. DELETE   '/questions/<question_id>'
 4. POST     '/quizzes'
@@ -83,28 +82,40 @@ Endpoints
 7. POST     '/categories'
 8. DELETE   '/categories'
 
+Each ressource documentation is clearly structured:
+1. Description in a few words
+2. `curl` example that can directly be used in terminal
+3. More descriptive explanation of input & outputs.
+4. Example Response.
+5. Error Handling (`curl` command to trigger error + error response)
 
-**_1. GET '/questions'_**
 
+### 1. GET '/questions'
+# <a name="get-questions"></a>
+
+Fetch paginated questions:
 ```bash
-curl -X GET http://127.0.0.1:5000/questions
+$ curl -X GET http://127.0.0.1:5000/questions?page1
 ```
-- Fetches a list of dictionaries of questions in which the keys are the ids and all available fields, a list of all categories and number of total questions.
-- Request Arguments: None
+- Fetches a list of dictionaries of questions in which the keys are the ids with all available fields, a list of all categories and number of total questions.
+- Request Arguments: 
+    - **int** Page (10 questions per Page, defaults to `1` if not given)
+- Request Headers: **None**
 - Returns: 
-1. List of dict of questions with following fields:
-    <integer> id
-    <string> question
-    <string> answer
-    <string> category
-    <integer> difficulty
-2. <list> all categories
-3. <list> current categories
-4. <integer> Total number of questions
-5. <boolean> Success
+  1. List of dict of questions with following fields:
+      - **integer** `id`
+      - **string** `question`
+      - **string** `answer`
+      - **string** `category`
+      - **integer** `difficulty`
+  2. **list** `categories`
+  3. **list** `current_category`
+  4. **integer** `total_questions`
+  5. **boolean** `success`
 
-Example response:
+#### Example response:
 ```js
+{
 "categories": [
     "Science",
     "Art",
@@ -113,7 +124,7 @@ Example response:
     "Entertainment",
     "Sports"
   ],
-  "current_category": [
+"current_category": [
     "Science",
     "Art",
     "Geography",
@@ -121,7 +132,7 @@ Example response:
     "Entertainment",
     "Sports"
   ],
-  "questions": [
+"questions": [
     {
       "answer": "Apollo 13",
       "category": 5,
@@ -143,11 +154,90 @@ Example response:
   "success": true,
   "total_questions": 19
 }
+
+```
+#### Errors
+If you try fetch a page which does not have any questions, you will encounter an error which looks like this:
+
+```bash
+curl -X GET http://127.0.0.1:5000/questions?page=12452512
+```
+
+will return
+
+```js
+{
+  "error": 404,
+  "message": "resource not found",
+  "success": false
+}
+
 ```
 
 
+### 2. POST /questions
 
-**_5. GET '/categories'_**
+Search Questions
+```bash
+curl -X POST http://127.0.0.1:5000/questions -d '{"searchTerm" : "test"}' -H'Content-Type: application/json'
+```
+
+Create new Question
+```bash
+curl -X POST http://127.0.0.1:5000/questions -d '{ "question" : "Is this a test question?", "category" : "1" , "answer" : "Yes it is!", "difficulty" : 1 }' -H 'Content-Type: application/json'-H'Content-Type: application/json'
+```
+
+#### Example response:
+Search Questions
+```js
+{
+  "current_category": [
+    {
+      "id": 1,
+      "type": "Science"
+    },
+    {
+      "id": 2,
+      "type": "Art"
+    },
+    {
+      "id": 3,
+      "type": "Geography"
+    },
+    {
+      "id": 4,
+      "type": "History"
+    },
+    {
+      "id": 5,
+      "type": "Entertainment"
+    },
+    {
+      "id": 6,
+      "type": "Sports"
+    }
+  ],
+  "questions": [
+    {
+      "answer": "Jup",
+      "category": 1,
+      "difficulty": 1,
+      "id": 24,
+      "question": "Is this a test question?"
+    }
+    // + all questions which contain the search term in its question
+  ],
+  "success": true,
+  "total_questions": 20
+}
+
+```
+Create Question
+```js
+```
+
+
+***5. GET '/categories'***
 
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
