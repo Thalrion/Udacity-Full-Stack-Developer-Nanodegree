@@ -18,7 +18,7 @@ Used tech stack:
 - Flask-Migrate for creating and running schema migrations
 - Frontend: HTML, CSS, and Javascript with Bootstrap 3
 
-Applied contepts:
+Applied concepts:
 - How to use Git Bash & Github as version control tool
 - Configure local database and connect it to a web application
 - Create Model Schemas with columns and relationships (1:1, 1:n and N:N)
@@ -32,20 +32,26 @@ Applied contepts:
 
 ### Project 2: Trivia API
 
-est. time spent: `28 hours` (including pre-courses)
+est. time spent: `36 hours` (including pre-courses)
 
 Using 'Flask' and 'React', created a Full-Stack App to manage questions
-for different categories & play a quizz game.
+for different categories & develop an API to power the Quiz Gameplay.
 
 Used tech stack:
 - React Components as frontend (mainly provided by Udacity Team)
 - Python3 and Flask for server language and API development
-- `test-driven-development (TDD)` to rapidly create highly tested & maintainable endpoints.
 - `cors` to handle access to the API
 - `unittest` for automated testing of APIs
 - `curl` to get responses from API
-- `README.md` to document project setup & how to work with the API 
+- `README.md` to document project setup & API endpoints
 
-[View Project](https://github.com/Thalrion/Udacity-Full-Stack-Developer-Nanodegree/tree/master/project02_triviaAPI).
+Applied concepts:
+- using best-practice `PEP8-style` to design and structur code
+- `test-driven-development (TDD)` to rapidly create highly tested & maintainable endpoints.
+- directly test and make response to any endpoint out there with `curl`.
+- implement `errorhandler` to format & design appropiate error messages to client
+- becoming aware of the importance of extensive project documentation & testing.
+
+[View Project](https://github.com/Thalrion/Udacity-Full-Stack-Developer-Nanodegree/tree/master/project02_triviaAPI/finished).
 
 
