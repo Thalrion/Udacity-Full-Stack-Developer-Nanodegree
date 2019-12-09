@@ -316,18 +316,27 @@ def create_app(test_config=None):
     previous_questions = body.get('previous_questions', None)
     current_category = body.get('quiz_category', None)
 
-    if current_category:
-      # if category is given, use already existing function to get all questions from this category 
-      questions_raw = (Question.query
-        .filter(Question.category == str(current_category['id']))
-        .filter(Question.id.notin_(previous_questions))
-        .all())
-
+    if not previous_questions:
+      if current_category:
+        # if no list with previous questions is given, but a category , just gut any question from this category.
+        questions_raw = (Question.query
+          .filter(Question.category == str(current_category['id']))
+          .all())
+      else:
+        # if no list with previous questions is given and also no category , just gut any question.
+        questions_raw = (Question.query.all())    
     else:
-      # Otherwise, get all questions without category filtering 
-      questions_raw = (Question.query
-        .filter(Question.id.notin_(previous_questions))
-        .all())
+      if current_category:
+      # if a list with previous questions is given and also a category, query for questions which are not contained in previous question and are in given category
+        questions_raw = (Question.query
+          .filter(Question.category == str(current_category['id']))
+          .filter(Question.id.notin_(previous_questions))
+          .all())
+      else:
+        # # if a list with previous questions is given but no category, query for questions which are not contained in previous question.
+        questions_raw = (Question.query
+          .filter(Question.id.notin_(previous_questions))
+          .all())
     
     # Format questions & get a random question
     questions_formatted = [question.format() for question in questions_raw]

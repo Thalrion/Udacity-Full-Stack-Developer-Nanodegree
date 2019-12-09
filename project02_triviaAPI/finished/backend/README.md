@@ -377,6 +377,59 @@ will return
 }
 ```
 
+# <a name="post-quizzes"></a>
+### 4. POST /quizzes
+
+Play quiz game.
+```bash
+curl -X POST http://127.0.0.1:5000/quizzes -d '{"previous_questions" : [1, 2, 5], "quiz_category" : {"type" : "Science", "id" : "1"}} ' -H 'Content-Type: application/json'
+```
+- Plays quiz game by providing a list of already asked questions and a category to ask for a fitting, random question.
+- Request Arguments: **None**
+- Request Headers : 
+     1. **list** `previous_questions` (optional) with **integer** ids from already asked questions
+     1. **dict** `quiz_category` (optional) with keys:
+        1.  **string** type
+        2. **integer** id from category
+- Returns: 
+  1. Exactly one `question` as **dict** with following fields:
+      - **integer** `id`
+      - **string** `question`
+      - **string** `answer`
+      - **string** `category`
+      - **integer** `difficulty`
+  2. **boolean** `success`
+
+#### Example response
+```js
+{
+  "question": {
+    "answer": "Jup",
+    "category": 1,
+    "difficulty": 1,
+    "id": 24,
+    "question": "Is this a test question?"
+  },
+  "success": true
+}
+
+```
+### Errors
+
+If you try to play the quiz game without a a valid JSON body, it will response with an  `400` error.
+
+```bash
+curl -X POST http://127.0.0.1:5000/quizzes -d '{"quiz_category" : {"type" : "Science", "id" : "1"}} ' -H 'Content-Type: application/json'
+```
+will return
+```js
+{
+  "error": 400,
+  "message": "Please provide a list \"previous_questions\" with previous asked question ids (or at least an empty list)",
+  "success": false
+}
+
+```
 # <a name="get-categories"></a>
 ### 5. GET /categories
 
@@ -384,7 +437,7 @@ will return
 - Request Arguments: None
 - Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
 
-Example Response:
+#### Example response
 ```js
 {
 '1' : "Science",
