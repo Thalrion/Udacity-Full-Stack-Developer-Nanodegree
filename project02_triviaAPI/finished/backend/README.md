@@ -1,8 +1,9 @@
 # Full Stack Trivia API Backend
 
-1.  Start Project locally.
-2.  API Documentation
+1.  [Start Project locally](#start-project)
+2.  [API Documentation](#api-documentation)
 
+<a name="start-project"></a>
 ## Start Project locally
 
 Make sure that you `cd` into the backend folder before following the setup steps.
@@ -43,7 +44,7 @@ $ createdb trivia_test
 $ psql trivia_test < trivia.psql
 $ python test_flaskr.py
 ```
-
+<a name="api-documentaton"></a>
 ## API Documentation
 
 Here you can find all existing endpoints, which methods can be used, how to work with them & example responses you´ll get.
@@ -72,15 +73,19 @@ Here is a short table about which ressources exist and which method you can use 
 
 ### How to work with each endpoint
 
-Endpoints
-1. [GET '/questions'](#get-questions)
-2. POST     '/questions'
-3. DELETE   '/questions/<question_id>'
-4. POST     '/quizzes'
-5. GET      '/categories'
-6. GET      '/categories/<category_id>/questions'
-7. POST     '/categories'
-8. DELETE   '/categories'
+Click on a link to directly get to the ressource.
+
+1. Questions
+   1. [GET /questions](#get-questions)
+   2. [POST /questions](#search-questions)
+   3. [DELETE /questions/<question_id>](#delete-questions)
+2. Quizzes
+   1. [POST /quizzes](#post-quizzes)
+3. Categories
+   1. [GET /categories](#categories)
+   2. [GET /categories/<category_id>/questions](#get-questions)
+   3. [POST /categories](#post-categories)
+   4. [DELETE /categories](#delete-categories)
 
 Each ressource documentation is clearly structured:
 1. Description in a few words
@@ -89,9 +94,8 @@ Each ressource documentation is clearly structured:
 4. Example Response.
 5. Error Handling (`curl` command to trigger error + error response)
 
-
-### 1. GET '/questions'
 # <a name="get-questions"></a>
+### 1. GET '/questions'
 
 Fetch paginated questions:
 ```bash
