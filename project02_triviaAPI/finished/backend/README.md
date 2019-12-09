@@ -46,16 +46,16 @@ $ psql trivia < trivia.psql
  - Just change `user_name`, `password` and `port` to whatever you choose while installing postgres.
 >_tip_: `user_name` usually defaults to `postgres` and `port` always defaults to `localhost:5432` while installing postgres, most of the time you just need to change the `password`.
 
-1. Run the development server:
+5. Run the development server:
   ```bash 
   $ export FLASK_APP=flaskr
   $ export FLASK_ENV=development # enables debug mode
   $ flask run
   ```
 
->_tip_: Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` directory and the `__init__.py` file to find the application. 
+Setting the `FLASK_APP` variable to `flaskr` directs flask to use the `flaskr` directory and the `__init__.py` file to find the application. 
 
-5. (optional) To execute tests, run
+1. (optional) To execute tests, run
 ```bash 
 $ dropdb trivia_test
 $ createdb trivia_test
@@ -86,7 +86,7 @@ Additionally, common pitfalls & error messages are explained, if applicable.
 
 Since this API is not hosted on a specific domain, it can only be accessed when
 `flask` is run locally. To make requests to the API via `curl` or `postman`,
-you need to use the default domain on which the flask server is running.fgv
+you need to use the default domain on which the flask server is running.
 
 **_http://127.0.0.1:5000/_**
 
@@ -451,19 +451,31 @@ will return
 # <a name="get-categories"></a>
 ### 5. GET /categories
 
-- Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
+Fetch all available categories
+
+```bash
+curl -X GET http://127.0.0.1:5000/categories
+```
+
+- Fetches a list of all categories with its type as values.
 - Request Arguments: None
-- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
+- Returns: A list of categories with its type as values
+and a `success` value which indicates status of response. 
 
 #### Example response
 ```js
-{
-'1' : "Science",
-'2' : "Art",
-'3' : "Geography",
-'4' : "History",
-'5' : "Entertainment",
-'6' : "Sports"
+  "categories": [
+    "Science",
+    "Art",
+    "Geography",
+    "History",
+    "Entertainment",
+    "Sports"
+  ],
+  "success": true
 }
 ```
+
+# <a name="get-categories-questions"></a>
+### 6. GET /categories/<category_id>/questions
 
