@@ -341,7 +341,7 @@ will return
 ```
 **Insert related**
 
-If you try to insert a new question, but forget to provide a requiered field, it will throw an `400` error:
+If you try to insert a new question, but forget to provide a required field, it will throw an `400` error:
 ```bash
 curl -X POST http://127.0.0.1:5000/questions -d '{ "question" : "Is this a question without an answer?", "category" : "1" , "difficulty" : 1 }' -H 'Content-Type: application/json'
 ```
@@ -364,7 +364,7 @@ curl -X DELETE http://127.0.0.1:5000/questions/10
 ```
 - Deletes specific question based on given id
 - Request Arguments: 
-  - **integer** question_id
+  - **integer** `question_id`
 - Request Headers : **None**
 - Returns: 
     - **integer** `deleted` Id from deleted question.
@@ -545,3 +545,143 @@ curl -X GET http://127.0.0.1:5000/categories/2/questions?page=1
 ```
 
 ### Errors
+This endpoint can yield 2 common errors. For example, if you ask for questions of a category that does not exist it will throw an `400` error:
+```bash
+curl -X GET http://127.0.0.1:5000/categories/10/questions?page=1
+```
+will return
+```bash
+{
+  "error": 400,
+  "message": "No questions with category 10 found.",
+  "success": false
+}
+```
+Additionally, if you query for a category which has questions, but not on the selected `page`, it will raise an `404` error:
+```bash
+curl -X GET http://127.0.0.1:5000/categories/1/questions?page=5
+```
+will return
+```bash
+{
+  "error": 404,
+  "message": "No questions in selected page.",
+  "success": false
+}
+
+```
+# <a name="post-categories"></a>
+### 7. POST /categories
+
+Create new category.
+```bash
+curl -X POST http://127.0.0.1:5000/categories -d '{ "type" : "Nerd Stuff"}' -H 'Content-Type: application/json'
+```
+
+- Inserts a new `category` to extend gameplay with new kind of questions.
+- Request Arguments: **None**
+- Request Headers : (_application/json_) 
+   1. **string** type (<span style="color:red">*</span>required)
+- Returns: 
+  1. List of dict of all existing `categories` with following fields:
+      - **integer** `id` 
+      - **string** `type`
+  2. **integer** `total_categories` number of all `categories`
+  3. **integer** `created`  id from inserted `category`
+  4. **boolean** `success`
+
+#### Example response
+```js
+{
+  "categories": [
+    {
+      "id": 1,
+      "type": "Science"
+    },
+    {
+      "id": 2,
+      "type": "Art"
+    },
+    {
+      "id": 3,
+      "type": "Geography"
+    },
+    {
+      "id": 4,
+      "type": "History"
+    },
+    {
+      "id": 5,
+      "type": "Entertainment"
+    },
+    {
+      "id": 6,
+      "type": "Sports"
+    },
+    {
+      "id": 7,
+      "type": "Nerd Stuff"
+    }
+  ],
+  "created": 7,
+  "success": true,
+  "total_categories": 7
+}
+```
+
+
+#### Errors
+
+If you try to insert a new category without `type` field, it will throw an `400` error:
+```bash
+curl -X POST http://127.0.0.1:5000/categories -d '{ "name" : "Nerd Stuff"}' -H 'Content-Type: application/json'
+```
+
+will return
+
+```js
+{
+  "error": 400,
+  "message": "no type for new category provided.",
+  "success": false
+}
+```
+# <a name="delete-categories"></a>
+### 8. DELETE /categories/<category_id>
+
+Delete a Category
+```bash
+curl -X DELETE http://127.0.0.1:5000/categories/8
+```
+- Deletes specific category based on given id
+- Request Arguments: 
+  - **integer** `category_id`
+- Request Headers : **None**
+- Returns: 
+    - **integer** `deleted` Id from deleted category.
+    - **boolean** `success`
+
+
+#### Example response
+```js
+{
+  "deleted": 8,
+  "success": true
+}
+```
+
+### Errors
+
+If you try to delete a category which does not exist, it will throw an `404` error:
+
+```bash
+curl -X DELETE http://127.0.0.1:5000/categories/100
+```
+will return
+```js
+{
+  "error": 400,
+  "message": "Category with id 100 does not exist.",
+  "success": false
+}
+```
