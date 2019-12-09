@@ -134,7 +134,7 @@ $ curl -X GET http://127.0.0.1:5000/questions?page1
 ```
 - Fetches a list of dictionaries of questions in which the keys are the ids with all available fields, a list of all categories and number of total questions.
 - Request Arguments: 
-    - **int** Page (10 questions per Page, defaults to `1` if not given)
+    - **integer** page (optional, 10 questions per page, defaults to `1` if not given)
 - Request Headers: **None**
 - Returns: 
   1. List of dict of questions with following fields:
@@ -458,12 +458,14 @@ curl -X GET http://127.0.0.1:5000/categories
 ```
 
 - Fetches a list of all categories with its type as values.
-- Request Arguments: None
+- Request Arguments: **None**
+- Request Headers : **None**
 - Returns: A list of categories with its type as values
 and a `success` value which indicates status of response. 
 
 #### Example response
 ```js
+{
   "categories": [
     "Science",
     "Art",
@@ -475,7 +477,71 @@ and a `success` value which indicates status of response.
   "success": true
 }
 ```
+### Errors
+
+Endpoint should not raise any specific errors.
 
 # <a name="get-categories-questions"></a>
 ### 6. GET /categories/<category_id>/questions
 
+Get all questions from a specific category.
+```bash
+curl -X GET http://127.0.0.1:5000/categories/2/questions?page=1
+```
+- Fetches all questions (paginated) from one specific category.
+- Request Arguments:
+  - **integer** `category_id` (<span style="color:red">*</span>required)
+  - **integer** `page` (optinal, 10 questions per Page, defaults to `1` if not given)
+- Request Headers: **None**
+- Returns: 
+  1. **integer** `current_category` id from inputted category
+  2. List of dict of all questions with following fields:
+     - **integer** `id` 
+     - **string** `question`
+     - **string** `answer`
+     - **string** `category`
+     - **integer** `difficulty`
+  3. **integer** `total_questions`
+  4. **boolean** `success`
+
+#### Example response
+
+```js
+{
+  "current_category": "2",
+  "questions": [
+    {
+      "answer": "Escher",
+      "category": 2,
+      "difficulty": 1,
+      "id": 16,
+      "question": "Which Dutch graphic artist\u2013initials M C was a creator of optical illusions?"
+    },
+    {
+      "answer": "Mona Lisa",
+      "category": 2,
+      "difficulty": 3,
+      "id": 17,
+      "question": "La Giaconda is better known as what?"
+    },
+    {
+      "answer": "One",
+      "category": 2,
+      "difficulty": 4,
+      "id": 18,
+      "question": "How many paintings did Van Gogh sell in his lifetime?"
+    },
+    {
+      "answer": "Jackson Pollock",
+      "category": 2,
+      "difficulty": 2,
+      "id": 19,
+      "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+    }
+  ],
+  "success": true,
+  "total_questions": 4
+}
+```
+
+### Errors
