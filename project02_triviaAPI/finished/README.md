@@ -16,7 +16,7 @@ Udacitrivia is a Full-Stack Web Application with following features:
 Main goal and motivation of the project is to learn how to design & develop an API which
 can be consumed by a seperat frontend and also from other, authorised sources.
 
-Every line of code was implemented with 'Test-Driven-Development' in mind. Before a new Endpoint was
+Every line of code was implemented with `Test-Driven-Development` in mind. Before a new Endpoint was
 created, I formulated and designed `Unit Tests` to check expected behaviour for successful and for bad requests.
 
 After all tests have been written, endpoints were implemented to pass exactly these tests.

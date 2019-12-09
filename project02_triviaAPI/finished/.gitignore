@@ -3,8 +3,8 @@ __pycache__
 env
 node_modules
 pip
-package-lock
-
+package-lock.json
+package.json
 # OS generated files #
 ######################
 .DS_Store
