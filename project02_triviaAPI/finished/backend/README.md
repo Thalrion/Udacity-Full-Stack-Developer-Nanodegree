@@ -130,7 +130,7 @@ Each ressource documentation is clearly structured:
 
 Fetch paginated questions:
 ```bash
-$ curl -X GET http://127.0.0.1:5000/questions?page1
+$ curl -X GET http://127.0.0.1:5000/questions?page=1
 ```
 - Fetches a list of dictionaries of questions in which the keys are the ids with all available fields, a list of all categories and number of total questions.
 - Request Arguments: 

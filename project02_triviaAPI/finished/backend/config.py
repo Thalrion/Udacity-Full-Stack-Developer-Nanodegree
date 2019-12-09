@@ -9,7 +9,7 @@ database_setup = {
     "database_name_production" : "trivia",
     "database_name_test" : "trivia_test",
     "user_name" : "postgres", # default postgres user name
-    "password" : "Silbermond1^", # if applicable. If no password, just type in None
+    "password" : "testpassword123", # if applicable. If no password, just type in None
     "port" : "localhost:5432" # default postgres port
 }
 
