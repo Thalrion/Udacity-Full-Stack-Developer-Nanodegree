@@ -95,7 +95,7 @@ Each ressource documentation is clearly structured:
 5. Error Handling (`curl` command to trigger error + error response)
 
 # <a name="get-questions"></a>
-### 1. GET '/questions'
+### 1. GET /questions
 
 Fetch paginated questions:
 ```bash
@@ -183,13 +183,48 @@ will return
 
 Search Questions
 ```bash
-curl -X POST http://127.0.0.1:5000/questions -d '{"searchTerm" : "test"}' -H'Content-Type: application/json'
+curl -X POST http://127.0.0.1:5000/questions -d '{"searchTerm" : "test"}' -H 'Content-Type: application/json'
 ```
 
 Create new Question
 ```bash
-curl -X POST http://127.0.0.1:5000/questions -d '{ "question" : "Is this a test question?", "category" : "1" , "answer" : "Yes it is!", "difficulty" : 1 }' -H 'Content-Type: application/json'-H'Content-Type: application/json'
+curl -X POST http://127.0.0.1:5000/questions -d '{ "question" : "Is this a test question?", "category" : "1" , "answer" : "Yes it is!", "difficulty" : 1 }' -H 'Content-Type: application/json'
 ```
+
+- Searches database for questions with a search term, if provided. Otherwise,
+it will insert a new question into the database.
+- Request Arguments: **None**
+- Request Headers :
+  - if you want to **search** (_application/json_)
+       1. **string** searchTerm (<span style="color:red">*</span>required)
+  - if you want to **insert** (_application/json_) 
+       1. **string** question (<span style="color:red">*</span>required)
+       2. **string** answer (<span style="color:red">*</span>required)
+       3. **string** category (<span style="color:red">*</span>required)
+       4. **integer** difficulty (<span style="color:red">*</span>required)
+- Returns: 
+  - if you searched:
+    1. List of dict of `questions` which match the `searchTerm` with following fields:
+        - **integer** `id`
+        - **string** `question`
+        - **string** `answer`
+        - **string** `category`
+        - **integer** `difficulty`
+    2. List of dict of ``current_category`` with following fields:
+        - **integer** `id`
+        - **string** `type`
+    3. **integer** `total_questions`
+    4. **boolean** `success`
+  - if you inserted:
+    1. List of dict of all questions with following fields:
+        - **integer** `id`
+        - **string** `question`
+        - **string** `answer`
+        - **string** `category`
+        - **integer** `difficulty`
+    2. **integer** `total_questions`
+    3. **integer** `created` 
+    4. **boolean** `success`
 
 #### Example response:
 Search Questions
@@ -204,22 +239,9 @@ Search Questions
       "id": 2,
       "type": "Art"
     },
-    {
-      "id": 3,
-      "type": "Geography"
-    },
-    {
-      "id": 4,
-      "type": "History"
-    },
-    {
-      "id": 5,
-      "type": "Entertainment"
-    },
-    {
-      "id": 6,
-      "type": "Sports"
-    }
+
+   [...] // all current categories
+
   ],
   "questions": [
     {
@@ -229,7 +251,9 @@ Search Questions
       "id": 24,
       "question": "Is this a test question?"
     }
-    // + all questions which contain the search term in its question
+
+    [...] // + all questions which contain the search term in its question
+  
   ],
   "success": true,
   "total_questions": 20
@@ -238,10 +262,70 @@ Search Questions
 ```
 Create Question
 ```js
+{
+  "created": 26, // id of question created
+  "questions": [
+    {
+      "answer": "Apollo 13",
+      "category": 5,
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+    {
+      "answer": "Tom Cruise",
+      "category": 5,
+      "difficulty": 4,
+      "id": 4,
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },
+   
+   [...] // + all questions in database
+
+  ],
+  "success": true,
+  "total_questions": 21
+}
+
 ```
 
 
-***5. GET '/categories'***
+#### Errors
+**Search related**
+
+If you try to search for a question which does not exist, it will response with an `404` error code:
+
+```bash
+curl -X POST http://127.0.0.1:5000/questions -d '{"searchTerm" : "this does not exist"}' -H'Content-Type: application/json' 
+```
+
+will return
+
+```js
+{
+  "error": 404,
+  "message": "No questions that contains \"this does not exist\" found.",
+  "success": false
+}
+```
+**Insert related**
+
+If you try to insert a new question, but forget to provide a requiered field, it will throw an `400` error:
+```bash
+curl -X POST http://127.0.0.1:5000/questions -d '{ "question" : "Is this a question without an answer?", "category" : "1" , "difficulty" : 1 }' -H 'Content-Type: application/json'
+```
+
+will return
+
+```js
+{
+  "error": 400,
+  "message": "Answer can not be blank",
+  "success": false
+}
+```
+
+### 5. GET /categories
 
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None

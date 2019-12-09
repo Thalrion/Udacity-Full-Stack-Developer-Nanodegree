@@ -158,11 +158,8 @@ def create_app(test_config=None):
     """
     body = request.get_json()
 
-    print(body)
-
     if not body:
       abort(422)
-
 
     search_term = body.get('searchTerm', None)
 
