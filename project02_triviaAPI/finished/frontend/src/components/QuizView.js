@@ -22,7 +22,7 @@ class QuizView extends Component {
 
   componentDidMount(){
     $.ajax({
-      url: `/categories`, //TODO: update request URL
+      url: `/categories`, //TODO DONE: update request URL
       type: "GET",
       success: (result) => {
         this.setState({ categories: result.categories })
@@ -48,7 +48,7 @@ class QuizView extends Component {
     if(this.state.currentQuestion.id) { previousQuestions.push(this.state.currentQuestion.id) }
 
     $.ajax({
-      url: '/quizzes', //TODO: update request URL
+      url: '/quizzes', //TODO DONE: update request URL
       type: "POST",
       dataType: 'json',
       contentType: 'application/json',
@@ -71,6 +71,7 @@ class QuizView extends Component {
         return;
       },
       error: (error) => {
+        console.log(error)
         alert('Unable to load question. Please try your request again')
         return;
       }
