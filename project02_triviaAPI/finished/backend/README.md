@@ -134,7 +134,7 @@ $ curl -X GET http://127.0.0.1:5000/questions?page1
 ```
 - Fetches a list of dictionaries of questions in which the keys are the ids with all available fields, a list of all categories and number of total questions.
 - Request Arguments: 
-    - **integer** page (optional, 10 questions per page, defaults to `1` if not given)
+    - **integer** `page` (optional, 10 questions per page, defaults to `1` if not given)
 - Request Headers: **None**
 - Returns: 
   1. List of dict of questions with following fields:
@@ -227,12 +227,12 @@ it will insert a new question into the database.
 - Request Arguments: **None**
 - Request Headers :
   - if you want to **search** (_application/json_)
-       1. **string** searchTerm (<span style="color:red">*</span>required)
+       1. **string** `searchTerm` (<span style="color:red">*</span>required)
   - if you want to **insert** (_application/json_) 
-       1. **string** question (<span style="color:red">*</span>required)
-       2. **string** answer (<span style="color:red">*</span>required)
-       3. **string** category (<span style="color:red">*</span>required)
-       4. **integer** difficulty (<span style="color:red">*</span>required)
+       1. **string** `question` (<span style="color:red">*</span>required)
+       2. **string** `answer` (<span style="color:red">*</span>required)
+       3. **string** `category` (<span style="color:red">*</span>required)
+       4. **integer** `difficulty` (<span style="color:red">*</span>required)
 - Returns: 
   - if you searched:
     1. List of dict of `questions` which match the `searchTerm` with following fields:
@@ -324,7 +324,7 @@ Create Question
 #### Errors
 **Search related**
 
-If you try to search for a question which does not exist, it will response with an `404` error code:
+If you try to search for a `question` which does not exist, it will response with an `404` error code:
 
 ```bash
 curl -X POST http://127.0.0.1:5000/questions -d '{"searchTerm" : "this does not exist"}' -H'Content-Type: application/json' 
@@ -341,7 +341,7 @@ will return
 ```
 **Insert related**
 
-If you try to insert a new question, but forget to provide a required field, it will throw an `400` error:
+If you try to insert a new `question`, but forget to provide a required field, it will throw an `400` error:
 ```bash
 curl -X POST http://127.0.0.1:5000/questions -d '{ "question" : "Is this a question without an answer?", "category" : "1" , "difficulty" : 1 }' -H 'Content-Type: application/json'
 ```
@@ -381,7 +381,7 @@ curl -X DELETE http://127.0.0.1:5000/questions/10
 
 ### Errors
 
-If you try to delete a question which does not exist, it will throw an `400` error:
+If you try to delete a `question` which does not exist, it will throw an `400` error:
 
 ```bash
 curl -X DELETE http://127.0.0.1:5000/questions/7
@@ -457,10 +457,10 @@ Fetch all available categories
 curl -X GET http://127.0.0.1:5000/categories
 ```
 
-- Fetches a list of all categories with its type as values.
+- Fetches a list of all `categories` with its `type` as values.
 - Request Arguments: **None**
 - Request Headers : **None**
-- Returns: A list of categories with its type as values
+- Returns: A list of categories with its `type` as values
 and a `success` value which indicates status of response. 
 
 #### Example response
@@ -479,16 +479,16 @@ and a `success` value which indicates status of response.
 ```
 ### Errors
 
-Endpoint should not raise any specific errors.
+Endpoint does not raise any specific errors.
 
 # <a name="get-categories-questions"></a>
 ### 6. GET /categories/<category_id>/questions
 
-Get all questions from a specific category.
+Get all questions from a specific `category`.
 ```bash
 curl -X GET http://127.0.0.1:5000/categories/2/questions?page=1
 ```
-- Fetches all questions (paginated) from one specific category.
+- Fetches all `questions` (paginated) from one specific category.
 - Request Arguments:
   - **integer** `category_id` (<span style="color:red">*</span>required)
   - **integer** `page` (optinal, 10 questions per Page, defaults to `1` if not given)
@@ -653,12 +653,12 @@ Delete a Category
 ```bash
 curl -X DELETE http://127.0.0.1:5000/categories/8
 ```
-- Deletes specific category based on given id
+- Deletes specific `category` based on given id
 - Request Arguments: 
   - **integer** `category_id`
 - Request Headers : **None**
 - Returns: 
-    - **integer** `deleted` Id from deleted category.
+    - **integer** `deleted` Id from deleted `category`.
     - **boolean** `success`
 
 
@@ -672,7 +672,7 @@ curl -X DELETE http://127.0.0.1:5000/categories/8
 
 ### Errors
 
-If you try to delete a category which does not exist, it will throw an `404` error:
+If you try to delete a `category` which does not exist, it will throw an `404` error:
 
 ```bash
 curl -X DELETE http://127.0.0.1:5000/categories/100
