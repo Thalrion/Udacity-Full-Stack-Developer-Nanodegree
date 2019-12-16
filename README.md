@@ -12,10 +12,10 @@ Aim of the project was to build a full-stack Web App with Flask and Boostrap whi
 Venues & Artists to list themselves and arrange Shows together.
 
 Used tech stack:
-- SQLAlchemy ORM as ORM library of choice
-- PostgreSQL as database
-- Python3 and Flask for server language and framework
-- Flask-Migrate for creating and running schema migrations
+- `SQLAlchemy` as ORM library of choice
+- `PostgreSQL` as database
+- `Python3` and `Flask` for server language and framework
+- `Flask-Migrate` for creating and running schema migrations
 - Frontend: HTML, CSS, and Javascript with Bootstrap 3
 
 Applied concepts:
@@ -54,4 +54,19 @@ Applied concepts:
 
 [View Project](https://github.com/Thalrion/Udacity-Full-Stack-Developer-Nanodegree/tree/master/project02_triviaAPI/finished).
 
+### Project 3: Coffee Shop (Security & Authorization)
 
+est. time spent: `16 hours` (including pre-courses)
+
+Using 'Flask' and 'Auth0', created a Full-Stack App to let Users
+login to Site & make actions according to their Role & Permission Sets.
+
+Used tech stack:
+- `Python3` & `Flask` for server language and API development 
+- `SQLAlchemy` as ORM / `Sqlite` as database
+- `Ionic` to serve and build the frontend
+- `Auth0` as external Authorization Service & permission creation
+- `jose` JavaScript Object Signing and Encryption for JWTs. Useful for encoding, decoding, and verifying JWTS.
+- `postman` to automatize endpoint testing & verification of correct Authorization behaviour.
+
+[View Project](https://github.com/Thalrion/Udacity-Full-Stack-Developer-Nanodegree/tree/master/project03_coffee_shop/finished).

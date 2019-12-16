@@ -1,4 +1,5 @@
 venv/
+env_fsnd_project3
 .vscode/
 __pycache__/
 test.db
