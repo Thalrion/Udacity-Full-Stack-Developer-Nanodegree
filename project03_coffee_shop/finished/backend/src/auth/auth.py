@@ -5,25 +5,28 @@ from jose import jwt
 from urllib.request import urlopen
 
 
-AUTH0_DOMAIN = 'udacity-fsnd.auth0.com'
-ALGORITHMS = ['RS256']
-API_AUDIENCE = 'dev'
+#----------------------------------------------------------------------------#
+# Auth0 Config
+#----------------------------------------------------------------------------#
 
-## AuthError Exception
-'''
-AuthError Exception
-A standardized way to communicate auth failure modes
-'''
+AUTH0_DOMAIN = 'fsnd-matthew.eu.auth0.com'
+ALGORITHMS = ['RS256']
+API_AUDIENCE = 'Coffee'
+
+#----------------------------------------------------------------------------#
+# AuthError Exception
+#----------------------------------------------------------------------------#
 class AuthError(Exception):
+    '''A standardized way to communicate auth failure modes'''
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
-
-
-## Auth Header
-
+    
+#----------------------------------------------------------------------------#
+# Auth Wrapper Functions
+#----------------------------------------------------------------------------#
 '''
-@TODO implement get_token_auth_header() method
+TODO implement get_token_auth_header() method
     it should attempt to get the header from the request
         it should raise an AuthError if no header is present
     it should attempt to split bearer and the token
@@ -34,7 +37,7 @@ def get_token_auth_header():
    raise Exception('Not Implemented')
 
 '''
-@TODO implement check_permissions(permission, payload) method
+TODO implement check_permissions(permission, payload) method
     @INPUTS
         permission: string permission (i.e. 'post:drink')
         payload: decoded jwt payload
@@ -48,7 +51,7 @@ def check_permissions(permission, payload):
     raise Exception('Not Implemented')
 
 '''
-@TODO implement verify_decode_jwt(token) method
+TODO implement verify_decode_jwt(token) method
     @INPUTS
         token: a json web token (string)
 
@@ -64,7 +67,7 @@ def verify_decode_jwt(token):
     raise Exception('Not Implemented')
 
 '''
-@TODO implement @requires_auth(permission) decorator method
+TODO implement @requires_auth(permission) decorator method
     @INPUTS
         permission: string permission (i.e. 'post:drink')
 

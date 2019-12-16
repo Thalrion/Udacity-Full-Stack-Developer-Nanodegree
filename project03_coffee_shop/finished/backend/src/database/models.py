@@ -23,11 +23,49 @@ def setup_db(app):
 db_drop_and_create_all()
     drops the database tables and starts fresh
     can be used to initialize a clean database
-    !!NOTE you can change the database_filename variable to have multiple verisons of a database
+    !!NOTE you can change the database_filename variable to have multiple versions of a database
 '''
 def db_drop_and_create_all():
     db.drop_all()
     db.create_all()
+    db_init_records()
+
+def db_init_records():
+    '''This will initialize the database with some test drinks
+    
+    Called on every restart, after database has been reseted by db_drop_and_create_all()
+    
+    '''
+    new_drink1 = (Drink(title = 'matcha shake', 
+                        recipe = """[
+                                {
+                                    "name" : "milk",
+                                    "color": "grey",
+                                    "parts": 1
+                                },
+                                {
+                                    "name" : "matcha",
+                                    "color": "green",
+                                    "parts": 3
+                                }
+                        ]"""
+                        ))
+    new_drink2 = (Drink(title = 'Purple Pain', 
+                        recipe = """[
+                                {   
+                                    "name" : "guave",
+                                    "color": "purple",
+                                    "parts": 3
+                                },
+                                {
+                                    "name": "milk",
+                                    "color": "white",
+                                    "parts": 2
+                                }
+                        ]"""
+                        ))
+    new_drink1.insert()               
+    new_drink2.insert()
 
 '''
 Drink
@@ -36,11 +74,10 @@ a persistent drink entity, extends the base SQLAlchemy Model
 class Drink(db.Model):
     # Autoincrementing, unique primary key
     id = Column(Integer().with_variant(Integer, "sqlite"), primary_key=True)
-    # String Title
     title = Column(String(80), unique=True)
     # the ingredients blob - this stores a lazy json blob
     # the required datatype is [{'color': string, 'name':string, 'parts':number}]
-    recipe =  Column(String(180), nullable=False)
+    recipe = Column(String(180), nullable=False)
 
     '''
     short()
