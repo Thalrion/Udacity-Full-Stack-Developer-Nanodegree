@@ -23,7 +23,7 @@ class AuthError(Exception):
         self.status_code = status_code
     
 #----------------------------------------------------------------------------#
-# Auth Wrapper Functions
+# Auth Wrapper Methods
 #----------------------------------------------------------------------------#
 '''
 TODO DONE implement get_token_auth_header() method
