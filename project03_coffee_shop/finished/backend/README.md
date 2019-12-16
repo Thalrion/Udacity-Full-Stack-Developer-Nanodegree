@@ -10,7 +10,7 @@ Follow instructions to install the latest version of python for your platform in
 
 #### Virtual Enviornment
 
-You should always working in a virtual environment whenever using Python for projects. This keeps your dependencies for each project separate and organaized:
+You should always be working in a virtual environment whenever using Python for projects. This keeps your dependencies for each project separate and organized:
 
   ```bash
   $ cd YOUR_PROJECT_DIRECTORY_PATH/
@@ -69,3 +69,5 @@ To execute the tests, follow these steps:
 5. Once uploaded, you can simple click on "Runner" (right next to "Import") and start all tests.
 
 >_tip_: Dont forget to have **flask** running before testing!
+
+Please note that tests have been made with (possibly) invalid tokens, so some of them won´t pass anymore.
