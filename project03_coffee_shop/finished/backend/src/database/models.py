@@ -38,7 +38,7 @@ def db_init_records():
     '''
     new_drink1 = (Drink(
                         id = 1,
-                        title = 'matcha shake', 
+                        title = 'Matcha Shake', 
                         recipe = """[
                                 {
                                     "name" : "milk",
@@ -64,13 +64,47 @@ def db_init_records():
                                 },
                                 {
                                     "name": "milk",
-                                    "color": "white",
+                                    "color": "black",
                                     "parts": 2
                                 }
                         ]"""
                         ))
+
+    new_drink3 = (Drink(
+                    id = 3,
+                    title = 'Rainbow Dash', 
+                    recipe = """[
+                            {   
+                                "name" : "cheery",
+                                "color": "red",
+                                "parts": 1
+                            },
+                            {
+                                "name": "lemon",
+                                "color": "yellow",
+                                "parts": 1
+                            },
+                            {
+                                "name": "apple",
+                                "color": "green",
+                                "parts": 1
+                            },
+                            {
+                                "name": "blueberry",
+                                "color": "blue",
+                                "parts": 1
+                            },
+                            {
+                                "name": "grape",
+                                "color": "purple",
+                                "parts": 1
+                            }
+                    ]"""
+                    ))
+
     new_drink1.insert()               
     new_drink2.insert()
+    new_drink3.insert()
 
 '''
 Drink

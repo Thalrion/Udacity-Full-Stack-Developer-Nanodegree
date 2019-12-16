@@ -26,7 +26,7 @@ class AuthError(Exception):
 # Auth Wrapper Functions
 #----------------------------------------------------------------------------#
 '''
-TODO implement get_token_auth_header() method
+TODO DONE implement get_token_auth_header() method
     it should attempt to get the header from the request
         it should raise an AuthError if no header is present
     it should attempt to split bearer and the token
@@ -66,13 +66,12 @@ def get_token_auth_header():
     return token
 
 '''
-TODO implement check_permissions(permission, payload) method
+TODO DONE implement check_permissions(permission, payload) method
     @INPUTS
         permission: string permission (i.e. 'post:drink')
         payload: decoded jwt payload
 
     it should raise an AuthError if permissions are not included in the payload
-        !!NOTE check your RBAC settings in Auth0
     it should raise an AuthError if the requested permission string is not in the payload permissions array
     return true otherwise
 '''
@@ -90,30 +89,36 @@ def check_permissions(permission, payload):
         }, 403)
     return True
 
-'''
-TODO implement verify_decode_jwt(token) method
-    @INPUTS
-        token: a json web token (string)
+# TODO DONE implement verify_decode_jwt(token) method
 
-    it should be an Auth0 token with key id (kid)
-    it should verify the token using Auth0 /.well-known/jwks.json
-    it should decode the payload from the token
-    it should validate the claims
-    return the decoded payload
-
-    !!NOTE urlopen has a common certificate error described here: https://stackoverflow.com/questions/50236117/scraping-ssl-certificate-verify-failed-error-for-http-en-wikipedia-org
-'''
 def verify_decode_jwt(token):
+    ''' Decodes JWT Token orraises appropiate Error Messages
+        *Input
+            <string> token (a json web token)
+        
+        *Output 
+            <string> decoded payload
+
+        Conditions for output to be returned:
+            - Auth0 token with key id (kid)
+            - verify the token using Auth0 /.well-known/jwks.json
+            - decode the payload from the token with Auth Config on top of auth.py
+            - claims need to fit
+
+    '''
+    # Verify token
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jwks = json.loads(jsonurl.read())
     unverified_header = jwt.get_unverified_header(token)
-    rsa_key = {}
+    
+    # Check if Key id is in unverified header
     if 'kid' not in unverified_header:
         raise AuthError({
             'code': 'invalid_header',
             'description': 'Authorization malformed.'
         }, 401)
 
+    rsa_key = {} # initialize empty private rsa key as dict
     for key in jwks['keys']:
         if key['kid'] == unverified_header['kid']:
             rsa_key = {
@@ -125,6 +130,7 @@ def verify_decode_jwt(token):
             }
     if rsa_key:
         try:
+            # Use Auth Config (top of file) to decode JWT and return payload if succesful
             payload = jwt.decode(
                 token,
                 rsa_key,
@@ -132,54 +138,61 @@ def verify_decode_jwt(token):
                 audience=API_AUDIENCE,
                 issuer='https://' + AUTH0_DOMAIN + '/'
             )
-
             return payload
 
+        # Raise Error if token is not valide anymore.
         except jwt.ExpiredSignatureError:
             raise AuthError({
                 'code': 'token_expired',
                 'description': 'Token expired.'
             }, 401)
 
+        # Raise Error if token is claiming wrong audience.
         except jwt.JWTClaimsError:
             raise AuthError({
                 'code': 'invalid_claims',
                 'description': 'Incorrect claims. Please, check the audience and issuer.'
             }, 401)
+
+        # In all other Error cases, give generic error message
         except Exception:
             raise AuthError({
                 'code': 'invalid_header',
                 'description': 'Unable to parse authentication token.'
             }, 400)
+
+    # If no payload has been returned yet, raise error.
     raise AuthError({
                 'code': 'invalid_header',
                 'description': 'Unable to find the appropriate key.'
             }, 400)
 
-'''
-TODO implement @requires_auth(permission) decorator method
-    @INPUTS
-        permission: string permission (i.e. 'post:drink')
 
-    it should use the get_token_auth_header method to get the token
-    it should use the verify_decode_jwt method to decode the jwt
-    it should use the check_permissions method validate claims and check the requested permission
-    return the decorator which passes the decoded payload to the decorated method
-'''
+# TODO DONE implement @requires_auth(permission) decorator method
+
 def requires_auth(permission=''):
+    ''' Authentification Wrapper to decorate Endpoints with
+    *Input:
+        <string> permission (i.e. 'post:drink')
+
+    uses the get_token_auth_header method to get the token
+    uses the verify_decode_jwt method to decode the jwt
+    uses the check_permissions method validate claims and check the requested permission
+
+    return the decorator which passes the decoded payload to the decorated method
+    '''
     def requires_auth_decorator(f):
         @wraps(f)
         def wrapper(*args, **kwargs):
             token = get_token_auth_header()
             try:
                 payload = verify_decode_jwt(token)
-            except Exception as e:
+            except:
                 raise AuthError({
                     'code': 'unauthorized',
                     'description': 'Permissions not found'
                 }, 401)
             check_permissions(permission, payload)
             return f(payload, *args, **kwargs)
-
         return wrapper
     return requires_auth_decorator
