@@ -73,17 +73,21 @@ def get_token_auth_header():
     # When everyhting is fine, get the token which is the second part of the Authorization Header & return it
     return parts[1]
 
-'''
-TODO DONE implement check_permissions(permission, payload) method
-    @INPUTS
-        permission: string permission (i.e. 'post:drink')
-        payload: decoded jwt payload
+# TODO DONE implement check_permissions(permission, payload) method
 
-    it should raise an AuthError if permissions are not included in the payload
-    it should raise an AuthError if the requested permission string is not in the payload permissions array
-    return true otherwise
-'''
 def check_permissions(permission, payload):
+    ''' Check if permission is part of payload
+    *Input
+        <string> permission (i.e. 'post:drink')
+        <string> payload (decoded jwt payload)
+    *Output:
+         True if all conditions have been met
+    
+    Conditions for Output:
+      - permissions are included in the payload
+      - requested permission string is in the payload permissions array
+
+    '''
     if 'permissions' not in payload:
                         raise AuthError({
                             'code': 'invalid_claims',
