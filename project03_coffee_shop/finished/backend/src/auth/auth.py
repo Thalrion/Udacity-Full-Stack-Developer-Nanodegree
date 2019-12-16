@@ -25,18 +25,23 @@ class AuthError(Exception):
 #----------------------------------------------------------------------------#
 # Auth Wrapper Methods
 #----------------------------------------------------------------------------#
-'''
-TODO DONE implement get_token_auth_header() method
-    it should attempt to get the header from the request
-        it should raise an AuthError if no header is present
-    it should attempt to split bearer and the token
-        it should raise an AuthError if the header is malformed
-    return the token part of the header
-'''
+
+# TODO DONE implement get_token_auth_header() method
+
 def get_token_auth_header():
     """Obtains the Access Token from the Authorization Header
+
+    *Input: None
+    *Output:
+       <string> token (part of the header)
+    
+    Conditions for Output:
+       - Authorization header is available
+       - header must not be malformed (i.e. Bearer XXXXX)
+
     """
     auth = request.headers.get('Authorization', None)
+    # Raise error if no "Authorization" is part of header
     if not auth:
         raise AuthError({
             'code': 'authorization_header_missing',
@@ -44,26 +49,29 @@ def get_token_auth_header():
         }, 401)
 
     parts = auth.split()
+    # Raise error if no "Bearer" is part "Authorization"
     if parts[0].lower() != 'bearer':
         raise AuthError({
             'code': 'invalid_header',
             'description': 'Authorization header must start with "Bearer".'
         }, 401)
 
+    # Raise error if "Authorization" only contains 1 part (it should have 2)
     elif len(parts) == 1:
         raise AuthError({
             'code': 'invalid_header',
             'description': 'Token not found.'
         }, 401)
 
+    # Raise error if "Authorization" contains more than 2 parts (it should only have 2)
     elif len(parts) > 2:
         raise AuthError({
             'code': 'invalid_header',
             'description': 'Authorization header must be bearer token.'
         }, 401)
 
-    token = parts[1]
-    return token
+    # When everyhting is fine, get the token which is the second part of the Authorization Header & return it
+    return parts[1]
 
 '''
 TODO DONE implement check_permissions(permission, payload) method
