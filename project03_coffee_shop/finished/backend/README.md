@@ -10,7 +10,13 @@ Follow instructions to install the latest version of python for your platform in
 
 #### Virtual Enviornment
 
-We recommend working within a virtual environment whenever using Python for projects. This keeps your dependencies for each project separate and organaized. Instructions for setting up a virual enviornment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+You should always working in a virtual environment whenever using Python for projects. This keeps your dependencies for each project separate and organaized:
+
+  ```bash
+  $ cd YOUR_PROJECT_DIRECTORY_PATH/
+  $ virtualenv --no-site-packages env
+  $ source env/bin/activate
+  ```
 
 #### PIP Dependencies
 
@@ -20,13 +26,13 @@ Once you have your virtual environment setup and running, install dependencies b
 pip install -r requirements.txt
 ```
 
-This will install all of the required packages we selected within the `requirements.txt` file.
+This will install all of the required packages selected within the `requirements.txt` file.
 
 ##### Key Dependencies
 
 - [Flask](http://flask.pocoo.org/)  is a lightweight backend microservices framework. Flask is required to handle requests and responses.
 
-- [SQLAlchemy](https://www.sqlalchemy.org/) and [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) are libraries to handle the lightweight sqlite database. Since we want you to focus on auth, we handle the heavy lift for you in `./src/database/models.py`. We recommend skimming this code first so you know how to interface with the Drink model.
+- [SQLAlchemy](https://www.sqlalchemy.org/) and [Flask-SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/) are libraries to handle the lightweight sqlite database. This has been precoded by Udacity since this project is alk about Idendification & Authorization. I configered it that way that in resets on every server-reset, with a preset of data.
 
 - [jose](https://python-jose.readthedocs.io/en/latest/) JavaScript Object Signing and Encryption for JWTs. Useful for encoding, decoding, and verifying JWTS.
 
@@ -48,38 +54,18 @@ flask run --reload
 
 The `--reload` flag will detect file changes and restart the server automatically.
 
-## Tasks
+## Testing
 
-### Setup Auth0
+Just like the 2nd Project, I used `Test-Driven-Development` to implement all Endpoints. 
 
-1. Create a new Auth0 Account
-2. Select a unique tenant domain
-3. Create a new, single page web application
-4. Create a new API
-    - in API Settings:
-        - Enable RBAC
-        - Enable Add Permissions in the Access Token
-5. Create new API permissions:
-    - `get:drinks-detail`
-    - `post:drinks`
-    - `patch:drinks`
-    - `delete:drinks`
-6. Create new roles for:
-    - Barista
-        - can `get:drinks-detail`
-    - Manager
-        - can perform all actions
-7. Test your endpoints with [Postman](https://getpostman.com). 
-    - Register 2 users - assign the Barista role to one and Manager role to the other.
-    - Sign into each account and make note of the JWT.
-    - Import the postman collection `./starter_code/backend/udacity-fsnd-udaspicelatte.postman_collection.json`
-    - Right-clicking the collection folder for barista and manager, navigate to the authorization tab, and including the JWT in the token field (you should have noted these JWTs).
-    - Run the collection and correct any errors.
-    - Export the collection overwriting the one we've included so that we have your proper JWTs during review!
+I used `Postman Collections` to test all my Endpoints for expected behaviour & correct permission execution.
 
-### Implement The Server
+To execute the tests, follow these steps:
 
-There are `@TODO` comments throughout the `./backend/src`. We recommend tackling the files in order and from top to bottom:
+1. Install [Postman](https://www.getpostman.com/downloads/)
+2. Download the `Postman Collection` in this Repo (`udacity-fsnd-udaspicelatte.postman_collection.json`)
+3. Open `Postman` and click on "Import" on the upper-left corner
+4. Select `udacity-fsnd-udaspicelatte.postman_collection.json`
+5. Once uploaded, you can simple click on "Runner" (right next to "Import") and start all tests.
 
-1. `./src/auth/auth.py`
-2. `./src/api.py`
+>_tip_: Dont forget to have **flask** running before testing!
