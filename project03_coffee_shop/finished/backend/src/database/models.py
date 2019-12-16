@@ -36,7 +36,9 @@ def db_init_records():
     Called on every restart, after database has been reseted by db_drop_and_create_all()
     
     '''
-    new_drink1 = (Drink(title = 'matcha shake', 
+    new_drink1 = (Drink(
+                        id = 1,
+                        title = 'matcha shake', 
                         recipe = """[
                                 {
                                     "name" : "milk",
@@ -50,7 +52,10 @@ def db_init_records():
                                 }
                         ]"""
                         ))
-    new_drink2 = (Drink(title = 'Purple Pain', 
+
+    new_drink2 = (Drink(
+                        id = 2,
+                        title = 'Purple Pain', 
                         recipe = """[
                                 {   
                                     "name" : "guave",
@@ -84,7 +89,6 @@ class Drink(db.Model):
         short form representation of the Drink model
     '''
     def short(self):
-        print(json.loads(self.recipe))
         short_recipe = [{'color': r['color'], 'parts': r['parts']} for r in json.loads(self.recipe)]
         return {
             'id': self.id,
@@ -97,11 +101,18 @@ class Drink(db.Model):
         long form representation of the Drink model
     '''
     def long(self):
-        return {
-            'id': self.id,
-            'title': self.title,
-            'recipe': json.loads(self.recipe)
-        }
+        try:
+            return {
+                'id': self.id,
+                'title': self.title,
+                'recipe': json.loads(self.recipe)
+            }
+        except:
+            return {
+                'id': self.id,
+                'title': self.title,
+                'recipe': self.recipe
+            }
 
     '''
     insert()
