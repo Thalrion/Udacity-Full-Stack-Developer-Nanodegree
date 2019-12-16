@@ -38,7 +38,7 @@ Using 'Flask' and 'React', created a Full-Stack App to manage questions
 for different categories & develop an API to power the Quiz Gameplay.
 
 Used tech stack:
-- React Components as frontend (mainly provided by Udacity Team)
+- React Components as frontend (provided by Udacity Team)
 - Python3 and Flask for server language and API development
 - `cors` to handle access to the API
 - `unittest` for automated testing of APIs
@@ -64,7 +64,7 @@ login to Site & make actions according to their Role & Permission Sets.
 Used tech stack:
 - `Python3` & `Flask` for server language and API development 
 - `SQLAlchemy` as ORM / `Sqlite` as database
-- `Ionic` to serve and build the frontend
+- `Ionic` to serve and build the frontend (provided by Udacity Team)
 - `Auth0` as external Authorization Service & permission creation
 - `jose` JavaScript Object Signing and Encryption for JWTs. Useful for encoding, decoding, and verifying JWTS.
 - `postman` to automatize endpoint testing & verification of correct Authorization behaviour.
