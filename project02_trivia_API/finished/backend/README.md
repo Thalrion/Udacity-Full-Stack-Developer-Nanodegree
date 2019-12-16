@@ -7,7 +7,7 @@
 ## Start Project locally
 
 Make sure that you `cd` into the backend folder before following the setup steps.
-Also, you need the latest version of [Python 3]([#api-documentation](https://www.python.org/downloads/)) 
+Also, you need the latest version of [Python 3](https://www.python.org/downloads/)
 and [postgres](https://www.postgresql.org/download/) installed on your machine.
 
 To start and run the local development server,
