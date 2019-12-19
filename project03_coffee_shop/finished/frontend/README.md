@@ -23,3 +23,11 @@ npm install
 ```
 
 >_tip_: **npm i** is shorthand for **npm install**
+
+## Running Your Frontend in Dev Mode
+
+Ionic ships with a useful development server which detects changes and transpiles as you work. The application is then accessible through the browser on a localhost port. To run the development server, cd into the `frontend` directory and run:
+
+```bash
+ionic serve
+```
