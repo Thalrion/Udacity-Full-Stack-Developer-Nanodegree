@@ -77,4 +77,18 @@ est. time spent: `24 hours` (including pre-courses)
 
 Deployed a Flask API to a Kubernetes cluster using Docker, AWS EKS, CodePipeline, and CodeBuild.
 
+(Application has been teared down after successfull review to avoid incurring additional costs)
 [View Project](https://github.com/Thalrion/FSND-Deploy-Flask-App-to-Kubernetes-Using-EKS).
+
+Used tech stack:
+- `Docker` for app containerization & image creation to ensure environment consistency across development and production server
+- `AWS EKS` & `Kubernetes` as container orchestration service to allow for horizontal scaling
+- `aswscli` to interact with AWS Cloud Services
+- `ekscli` for EKS cluster creation
+- `kubectl` to interact with kubernetes cluster & pods
+- `CodePipeline` for Continuous Delivery (CD) & to watch Github Repo for changes
+- `CodeBuild` for Continuous Integration (CI), together with `pytest` for automated testing before deployment
+
+
+### Project 5: Capstone
+
