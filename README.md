@@ -16,7 +16,7 @@ Used tech stack:
 - `PostgreSQL` as database
 - `Python3` and `Flask` for server language and framework
 - `Flask-Migrate` for creating and running schema migrations
-- Frontend: HTML, CSS, and Javascript with Bootstrap 3
+- Frontend: HTML, CSS, and Javascript with Bootstrap 3 (mainly provided by Udacity Team)
 
 Applied concepts:
 - How to use Git Bash & Github as version control tool
@@ -66,7 +66,15 @@ Used tech stack:
 - `SQLAlchemy` as ORM / `Sqlite` as database
 - `Ionic` to serve and build the frontend (provided by Udacity Team)
 - `Auth0` as external Authorization Service & permission creation
-- `jose` JavaScript Object Signing and Encryption for JWTs. Useful for encoding, decoding, and verifying JWTS.
+- `jose` JavaScript Object Signing and Encryption for JWTs. Useful for encoding, decoding, and verifying JWTs.
 - `postman` to automatize endpoint testing & verification of correct Authorization behaviour.
 
 [View Project](https://github.com/Thalrion/Udacity-Full-Stack-Developer-Nanodegree/tree/master/project03_coffee_shop/finished).
+
+### Project 4: Server Deployment, Containerization and Testing
+
+est. time spent: `24 hours` (including pre-courses)
+
+Deployed a Flask API to a Kubernetes cluster using Docker, AWS EKS, CodePipeline, and CodeBuild.
+
+[View Project](https://github.com/Thalrion/FSND-Deploy-Flask-App-to-Kubernetes-Using-EKS).

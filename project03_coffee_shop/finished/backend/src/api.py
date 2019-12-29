@@ -48,12 +48,11 @@ def get_all_drinks(recipe_format):
     '''
     # Get all drinks in database
     all_drinks = Drink.query.order_by(Drink.id).all()
-
     # Format with different recipe detail level
     if recipe_format.lower() == 'short':
-        all_drinks_formatted = [Drink.short(drink) for drink in all_drinks]
+        all_drinks_formatted = [drink.short() for drink in all_drinks]
     elif recipe_format.lower() == 'long':
-        all_drinks_formatted = [Drink.long(drink) for drink in all_drinks]
+        all_drinks_formatted = [drink.long() for drink in all_drinks]
     else:
         return abort(500, {'message': 'bad formatted function call. recipe_format needs to be "short" or "long".'})
 

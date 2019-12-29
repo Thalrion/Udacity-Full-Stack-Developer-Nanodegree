@@ -97,9 +97,34 @@ def db_init_records():
                     ]"""
                     ))
 
+    new_drink4 = (Drink(
+                id = 4,
+                title = 'Test', 
+                recipe = """[
+                        {   
+                            "name" : "cheery",
+                            "color": "red",
+                            "parts": 1
+                        },
+                        {
+                            "name": "lemon",
+                            "color": "yellow",
+                            "parts": 1
+                        },
+                        {
+                            "name": "",
+                            "color": "white",
+                            "parts": 1
+                        }
+                ]"""
+                ))
+
     new_drink1.insert()               
     new_drink2.insert()
     new_drink3.insert()
+    new_drink4.insert()
+
+    print(new_drink4.short())
 
 '''
 Drink
@@ -118,6 +143,7 @@ class Drink(db.Model):
         short form representation of the Drink model
     '''
     def short(self):
+        print(self.recipe)
         short_recipe = [{'color': r['color'], 'parts': r['parts']} for r in json.loads(self.recipe)]
         return {
             'id': self.id,
