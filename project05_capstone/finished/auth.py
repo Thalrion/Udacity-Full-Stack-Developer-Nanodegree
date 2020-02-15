@@ -9,9 +9,9 @@ from config import auth0_config
 # Auth0 Config
 #----------------------------------------------------------------------------#
 
-AUTH0_DOMAIN = 'fsnd-matthew.eu.auth0.com'
-ALGORITHMS = ['RS256']
-API_AUDIENCE = 'Coffee'
+AUTH0_DOMAIN = auth0_config['AUTH0_DOMAIN']
+ALGORITHMS = auth0_config['ALGORITHMS']
+API_AUDIENCE = auth0_config['API_AUDIENCE']
 
 #----------------------------------------------------------------------------#
 # AuthError Exception
@@ -25,7 +25,6 @@ class AuthError(Exception):
 #----------------------------------------------------------------------------#
 # Auth Wrapper Methods
 #----------------------------------------------------------------------------#
-
 
 def get_token_auth_header():
     """Obtains the Access Token from the Authorization Header

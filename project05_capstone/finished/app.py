@@ -2,11 +2,15 @@ import os
 from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from auth import AuthError, requires_auth
+from models import db_drop_and_create_all, setup_db, Example
 
 def create_app(test_config=None):
   '''create and configure the app'''
   
   app = Flask(__name__)
+  setup_db(app)
+  # db_drop_and_create_all() # uncomment this if you want to start a new database on app refresh
 
   #----------------------------------------------------------------------------#
   # CORS (API configuration)
@@ -24,16 +28,22 @@ def create_app(test_config=None):
   # Custom Functions
   #----------------------------------------------------------------------------#
 
-  def do_something():
-    '''do something
-    
-    *Inputs:
-        None
-    *Outputs:
-        None
-    
-    '''
-    pass
+  def get_error_message(error, default_text):
+      '''Returns default error text or custom error message (if not applicable)
+
+      *Input:
+          * <error> system generated error message which contains a description message
+          * <string> default text to be used as error message if Error has no specific message
+      *Output:
+          * <string> specific error message or default text(if no specific message is given)
+
+      '''
+      try:
+          # Return message contained in error, if possible
+          return error['description']
+      except TypeError:
+          # otherwise, return given default text
+          return default_text
 
   #----------------------------------------------------------------------------#
   #  API Endpoints
@@ -46,9 +56,11 @@ def create_app(test_config=None):
   # Endpoint /exampleGetEndPoint GET/POST/DELETE
   #----------------------------------------------------------------------------#
 
+
   @app.route('/exampleGetEndPoint', methods=['GET'])
-  def get_questions():
-    """Returns paginated questions
+  @requires_auth('get:examples') # decorate this endpoint to require a 'get:examples' permission from Auth. Result is accessible via payload argument. Pass no argument if authentification is requiered, but no permission
+  def example_get_endPoint(payload):
+    """Returns 1 example object
 
     Tested by:
       Success:
@@ -57,6 +69,27 @@ def create_app(test_config=None):
         - test_error_405_get_all_examples
 
     """
+    this_example = Example.query.all()
+
+    if len(this_example) == 0:
+      abort(404, {'message': 'no examples found in database.'})
+
+    return jsonify({
+      'success': True,
+      'drinks': this_example
+    })
+
+  #----------------------------------------------------------------------------#
+  # Error Handlers
+  #----------------------------------------------------------------------------#
+
+  @app.errorhandler(404)
+  def ressource_not_found(error):
+      return jsonify({
+                      "success": False, 
+                      "error": 404,
+                      "message": get_error_message(error, "resource not found")
+                      }), 404
 
   # After every endpoint has been created, return app
   return app

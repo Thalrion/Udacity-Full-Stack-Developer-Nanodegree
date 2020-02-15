@@ -1,11 +1,9 @@
-# TODO: Setup test suite and configuration with unittest
 import os
 import unittest
 import json
 from flask_sqlalchemy import SQLAlchemy
-
 from app import create_app
-from models import setup_db, Question, Category
+from models import setup_db, db_drop_and_create_all, Example
 from config import database_setup
 from sqlalchemy import desc
 
@@ -39,4 +37,21 @@ class ExampleTestCase(unittest.TestCase):
         """Executed after reach test"""
         pass
 
-#TODO: Create test cases
+# Test driven development (TDD): Create testcases first, then add endpoints to pass tests
+
+#----------------------------------------------------------------------------#
+# Tests for /exampleGetEndPoint GET
+#----------------------------------------------------------------------------#
+    def test_get_all_examples(self):
+        """Test GET all examples."""
+        res = self.client().get('/exampleGetEndPoint')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+        self.assertTrue(len(data['examples']) > 0)
+
+# Make the tests conveniently executable.
+# From app directory, run 'python test_app.py' to start tests
+if __name__ == "__main__":
+    unittest.main()

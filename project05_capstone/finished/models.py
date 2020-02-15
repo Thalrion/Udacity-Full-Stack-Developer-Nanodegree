@@ -4,6 +4,7 @@ from sqlalchemy import Column, String, Integer, create_engine
 from flask_sqlalchemy import SQLAlchemy
 import json
 from config import database_setup, SQLALCHEMY_TRACK_MODIFICATIONS
+
 #----------------------------------------------------------------------------#
 # Database Setup 
 #----------------------------------------------------------------------------#
@@ -20,13 +21,27 @@ def setup_db(app, database_path=database_path):
   db.init_app(app)
   db.create_all()
 
+def db_drop_and_create_all():
+    '''drops the database tables and starts fresh
+
+    can be used to initialize a clean database
+    '''
+    db.drop_all()
+    db.create_all()
+    db_init_records()
+
+def db_init_records():
+    '''this will initialize the database with some test examples.'''
+    new_example = (Example(description = 'I am a Test Example'))
+    new_example.insert()
+
 #----------------------------------------------------------------------------#
 # Example Model 
 #----------------------------------------------------------------------------#
 
 #TODO: Create Model Schema for App
 
-class example(db.Model):  
+class Example(db.Model):  
   __tablename__ = 'examples'
 
   id = Column(Integer, primary_key=True)
