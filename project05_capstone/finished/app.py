@@ -177,7 +177,7 @@ def create_app(test_config=None):
 
     # Abort 404 if no actor with this id exists
     if not actor_to_update:
-      abort(404, {'message': 'Actor with id {} not found in database.'.format(drink_id)})
+      abort(404, {'message': 'Actor with id {} not found in database.'.format(actor_id)})
 
     # Extract name and age value from request body
     # If not given, set existing field values, so no update will happen
@@ -200,7 +200,7 @@ def create_app(test_config=None):
     # Return success, updated actor id and updated actor as formatted list
     return jsonify({
       'success': True,
-      'created': actor_to_update.id,
+      'updated': actor_to_update.id,
       'actor' : [actor_to_update.format()]
     })
 
@@ -226,7 +226,7 @@ def create_app(test_config=None):
 
     # If no actor with given id could found, abort 404
     if not actor_to_delete:
-        abort(404, {'message': 'Actor with id {} not found in database.'.format(drink_id)})
+        abort(404, {'message': 'Actor with id {} not found in database.'.format(actor_id)})
     
     # Delete actor from database
     actor_to_delete.delete()
@@ -253,7 +253,7 @@ def create_app(test_config=None):
         - test_error_404_get_movies
 
     """
-    selection = movie.query.all()
+    selection = Movie.query.all()
     movies_paginated = paginate_results(request, selection)
 
     if len(movies_paginated) == 0:
@@ -333,7 +333,7 @@ def create_app(test_config=None):
 
     # Abort 404 if no movie with this id exists
     if not movie_to_update:
-      abort(404, {'message': 'Movie with id {} not found in database.'.format(drink_id)})
+      abort(404, {'message': 'Movie with id {} not found in database.'.format(movie_id)})
 
     # Extract title and age value from request body
     # If not given, set existing field values, so no update will happen
@@ -380,7 +380,7 @@ def create_app(test_config=None):
 
     # If no movie with given id could found, abort 404
     if not movie_to_delete:
-        abort(404, {'message': 'Movie with id {} not found in database.'.format(drink_id)})
+        abort(404, {'message': 'Movie with id {} not found in database.'.format(movie_id)})
     
     # Delete movie from database
     movie_to_delete.delete()
