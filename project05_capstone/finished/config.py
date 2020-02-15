@@ -1,5 +1,4 @@
-# This file should be included in .gitignore to not store sensitive data in version controll
-
+# This file should be included in .gitignore to not store sensitive data in version control
 import os
 SECRET_KEY = os.urandom(32)
 

@@ -13,8 +13,8 @@ from sqlalchemy import desc
 # Setup of Unittest
 #----------------------------------------------------------------------------#
 
-class CapstoneTestCase(unittest.TestCase):
-    """This class represents the capstone test case"""
+class ExampleTestCase(unittest.TestCase):
+    """This class represents the example test case"""
 
     def setUp(self):
         """Define test variables and initialize app."""
