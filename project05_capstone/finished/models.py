@@ -32,8 +32,12 @@ def db_drop_and_create_all():
 
 def db_init_records():
     '''this will initialize the database with some test examples.'''
-    new_example = (Example(description = 'I am a Test Example'))
-    new_example.insert()
+    new_actor = (Actor(
+        name = 'Matthew',
+        gender = 'Male',
+        age = 25
+        ))
+    new_actor.insert()
 
 #----------------------------------------------------------------------------#
 # Example Model 
@@ -41,14 +45,18 @@ def db_init_records():
 
 #TODO: Create Model Schema for App
 
-class Example(db.Model):  
-  __tablename__ = 'examples'
+class Actor(db.Model):  
+  __tablename__ = 'actors'
 
   id = Column(Integer, primary_key=True)
-  description = Column(String)
+  name = Column(String)
+  gender = Column(String)
+  age = Column(Integer)
 
-  def __init__(self, description):
-    self.description = description
+  def __init__(self, name, gender, age):
+    self.name = name
+    self.gender = gender
+    self.age = age
 
   def insert(self):
     db.session.add(self)
@@ -64,5 +72,7 @@ class Example(db.Model):
   def format(self):
     return {
       'id': self.id,
-      'description': self.question
+      'name' : self.name,
+      'gender': self.gender,
+      'age': self.age
     }

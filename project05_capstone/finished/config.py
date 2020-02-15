@@ -8,8 +8,8 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # TODO: Change values to your database setup information
 database_setup = {
-    "database_name_production" : "example",
-    "database_name_test" : "example_test",
+    "database_name_production" : "agency",
+    "database_name_test" : "agency_test",
     "user_name" : "postgres", # default postgres user name
     "password" : "testpassword123", # if applicable. If no password, just type in None
     "port" : "localhost:5432" # default postgres port
@@ -17,9 +17,9 @@ database_setup = {
 
 # TODO: Change values with data from your Auth0 Dashboard
 auth0_config = {
-    "AUTH0_DOMAIN" : "example-matthew.eu.auth0.com",
+    "AUTH0_DOMAIN" : "fsnd-matthew.eu.auth0.com",
     "ALGORITHMS" : ["RS256"],
-    "API_AUDIENCE" : "Example"
+    "API_AUDIENCE" : "Music"
 }
 
 pagination = {

@@ -3,10 +3,10 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from auth import AuthError, requires_auth
-from models import db_drop_and_create_all, setup_db, Example
+from models import db_drop_and_create_all, setup_db, Actor, Movie, Performance
 from config import pagination
 
-EXAMPLES_PER_PAGE = pagination['example']
+ROWS_PER_PAGE = pagination['example']
 
 def create_app(test_config=None):
   '''create and configure the app'''
@@ -48,27 +48,27 @@ def create_app(test_config=None):
           # otherwise, return given default text
           return default_text
 
-  def paginate_examples(request, selection):
-    '''Paginates and formats example 
+  def paginate_results(request, selection):
+    '''Paginates and formats database queries
 
     Parameters:
       * <HTTP object> request, that may contain a "page" value
-      * <database selection> selection of examples, queried from database
+      * <database selection> selection of objects, queried from database
     
     Returns:
-      * <list> list of dictionaries of examples, max. 10 examples
+      * <list> list of dictionaries of objects, max. 10 objects
 
     '''
     # Get page from request. If not given, default to 1
     page = request.args.get('page', 1, type=int)
     
     # Calculate start and end slicing
-    start =  (page - 1) * EXAMPLES_PER_PAGE
-    end = start + EXAMPLES_PER_PAGE
+    start =  (page - 1) * ROWS_PER_PAGE
+    end = start + ROWS_PER_PAGE
 
     # Format selection into list of dicts and return sliced
-    examples = [example.format() for example in selection]
-    return examples[start:end]
+    objects_formatted = [object_name.format() for object_name in selection]
+    return objects_formatted[start:end]
 
   #----------------------------------------------------------------------------#
   #  API Endpoints
@@ -82,27 +82,27 @@ def create_app(test_config=None):
   #----------------------------------------------------------------------------#
 
 
-  @app.route('/exampleGetEndPoint', methods=['GET'])
-  @requires_auth('get:examples') # decorate this endpoint to require a 'get:examples' permission from Auth. Result is accessible via payload argument. Pass no argument if authentification is requiered, but no permission
-  def example_get_endPoint(payload):
-    """Returns paginated example object
+  @app.route('/actors', methods=['GET'])
+  @requires_auth('read:actors') # decorate this endpoint to require a 'get:examples' permission from Auth. Result is accessible via payload argument. Pass no argument if authentification is requiered, but no permission
+  def get_actors(payload):
+    """Returns paginated actors object
 
     Tested by:
       Success:
-        - test_get_all_examples
+        - test_get_all_actors
       Error:
-        - test_error_405_get_all_examples
+        - test_error_405_get_actors
 
     """
-    selection = Example.query.all()
-    example_paginated = paginate_examples(request, selection)
+    selection = Actor.query.all()
+    actors_paginated = paginate_results(request, selection)
 
-    if len(example_paginated) == 0:
+    if len(actors_paginated) == 0:
       abort(404, {'message': 'no examples found in database.'})
 
     return jsonify({
       'success': True,
-      'drinks': example_paginated
+      'actors': actors_paginated
     })
 
   #----------------------------------------------------------------------------#
