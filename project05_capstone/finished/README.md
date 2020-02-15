@@ -236,5 +236,188 @@ will return
 }
 ```
 
+# <a name="get-movies"></a>
+### 5. GET /movies
+
+Query paginated movies.
+
+```bash
+$ curl -X GET http://127.0.0.1:8080/movies?page1
+```
+- Fetches a list of dictionaries of examples in which the keys are the ids with all available fields
+- Request Arguments: 
+    - **integer** `page` (optional, 10 movies per page, defaults to `1` if not given)
+- Request Headers: **None**
+- Requires permission: `read:movies`
+- Returns: 
+  1. List of dict of movies with following fields:
+      - **integer** `id`
+      - **string** `name`
+      - **date** `release_date`
+  2. **boolean** `success`
+
+#### Example response
+```js
+{
+  "success": true
+}
+
+```
+#### Errors
+If you try fetch a page which does not have any movies, you will encounter an error which looks like this:
+
+```bash
+$ curl -X GET http://127.0.0.1:8080/movies?page123124
+```
+
+will return
+
+```js
+{
+  "error": 404,
+  "message": "no movies found in database.",
+  "success": false
+}
+```
+
+# <a name="post-movies"></a>
+### 6. POST /movies
+
+Insert new Movie into database.
+
+```bash
+$ curl -X POST http://127.0.0.1:8080/movies
+```
+
+- Request Arguments: **None**
+- Request Headers: (_application/json_)
+       1. **string** `title` (<span style="color:red">*</span>required)
+       2. **date** `release_date` (<span style="color:red">*</span>required)
+- Requires permission: `create:movies`
+- Returns: 
+  1. **integer** `id from newly created movie`
+  2. **boolean** `success`
+
+#### Example response
+```js
+{
+    "created": 5,
+    "success": true
+}
+```
+#### Errors
+If you try to create a new movie without a requiered field like `name`,
+it will throw a `422` error:
+
+```bash
+$ curl -X GET http://127.0.0.1:8080/movies?page123124
+```
+
+will return
+
+```js
+{
+  "error": 422,
+  "message": "no name provided.",
+  "success": false
+}
+```
+
+# <a name="patch-movies"></a>
+### 7. PATCH /movies
+
+Edit an existing Movie
+
+```bash
+$ curl -X PATCH http://127.0.0.1:8080/movies/1
+```
+
+- Request Arguments: **integer** `id from movie you want to update`
+- Request Headers: (_application/json_)
+       1. **string** `title` 
+       2. **date** `release_date` 
+- Requires permission: `edit:movies`
+- Returns: 
+  1. **integer** `id from updated movie`
+  2. **boolean** `success`
+  3. List of dict of movies with following fields:
+        - **integer** `id`
+        - **string** `title` 
+        - **date** `release_date` 
+
+#### Example response
+```js
+{
+    "updated": 1,
+    "success": true
+}
+
+```
+#### Errors
+If you try to update an movie with an invalid id it will throw an `404`error:
+
+```bash
+$ curl -X PATCH http://127.0.0.1:8080/movies/125
+```
+
+will return
+
+```js
+{
+  "error": 404,
+  "message": "Movie with id 125 not found in database.",
+  "success": false
+}
+```
+Additionally, trying to update an Movie with already existing field values will result in an `422` error:
+
+```js
+{
+  "error": 422,
+  "message": "provided field values are already set. No update needed.",
+  "success": false
+}
+```
+
+# <a name="delete-movies"></a>
+### 8. DELETE /movies
+
+Delete an existing movie
+
+```bash
+$ curl -X DELETE http://127.0.0.1:8080/movies/1
+```
+
+- Request Arguments: **integer** `id from movie you want to delete`
+- Request Headers: `None`
+- Requires permission: `delete:movies`
+- Returns: 
+  1. **integer** `id from deleted movie`
+  2. **boolean** `success`
+
+#### Example response
+```js
+{
+    "delete": 5,
+    "success": true
+}
+
+```
+#### Errors
+If you try to delete movie with an invalid id, it will throw an `404`error:
+
+```bash
+$ curl -X DELETE http://127.0.0.1:8080/movies/125
+```
+
+will return
+
+```js
+{
+  "error": 404,
+  "message": "Movie with id 125 not found in database.",
+  "success": false
+}
+```
 
 ## Authentification
