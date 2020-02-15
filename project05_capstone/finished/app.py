@@ -175,6 +175,10 @@ def create_app(test_config=None):
     # Find actor which should be updated by id
     actor_to_update = Actor.query.filter(Actor.id == actor_id).one_or_none()
 
+    # Abort 404 if no actor with this id exists
+    if not actor_to_update:
+      abort(404, {'message': 'Actor with id {} not found in database.'.format(drink_id)})
+
     # Extract name and age value from request body
     # If not given, set existing field values, so no update will happen
     name = body.get('name', actor_to_update.name)
@@ -197,6 +201,38 @@ def create_app(test_config=None):
       'success': True,
       'created': actor_to_update.id,
       'actor' : [actor_to_update.format()]
+    })
+
+  @app.route('/actors/<actor_id>', methods=['DELETE'])
+  @requires_auth('delete:actors')
+  def delete_actors(actor_id, payload):
+    """Delete an existing Actor
+
+    Tested by:
+      Success:
+        - test_delete_actor
+      Error:
+        - test_error_401_delete_actor
+        - test_error_404_delete_actor
+
+    """
+    # Abort if no actor_id has been provided
+    if not actor_id:
+      abort(400, {'message': 'please append an actor id to the request url.'})
+  
+    # Find actor which should be deleted by id
+    actor_to_delete = Actor.query.filter(Actor.id == actor_id).one_or_none()
+
+    if not actor_to_delete:
+        abort(404, {'message': 'Actor with id {} not found in database.'.format(drink_id)})
+    
+    # Delete actor from database
+    actor_to_delete.delete()
+    
+    # Return success and id from deleted actor
+    return jsonify({
+      'success': True,
+      'delete': actor_id
     })
 
   #----------------------------------------------------------------------------#

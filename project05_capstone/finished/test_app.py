@@ -152,7 +152,8 @@ class AgencyTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertTrue(len(data['actors']) > 0)
+        self.assertTrue(len(data['actor']) > 0)
+        self.assertEqual(data['updated'], 1)
 
     def test_error_404_edit_actor(self):
         """Test PATCH with non valid id"""
@@ -161,7 +162,7 @@ class AgencyTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 404)
         self.assertFalse(data['success'])
-        self.assertEqual(data['message'] , 'No actor with id 123412 found')
+        self.assertEqual(data['message'] , 'Actor with id 123412 not found in database.')
 
 #----------------------------------------------------------------------------#
 # Tests for /actors DELETE
@@ -192,7 +193,7 @@ class AgencyTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 404)
         self.assertFalse(data['success'])
-        self.assertEqual(data['message'] , 'No actor with id 1 found')
+        self.assertEqual(data['message'] , 'Actor with id 1 not found in database.')
 
 #----------------------------------------------------------------------------#
 # Tests for /movies POST
