@@ -40,8 +40,61 @@ class AgencyTestCase(unittest.TestCase):
 # Test driven development (TDD): Create testcases first, then add endpoints to pass tests
 
 #----------------------------------------------------------------------------#
-# Tests for /actors GET/POST/DELETE/PATCH
+# Tests for /actors POST/GET/DELETE/PATCH
+
+# RBAC Tests:
+#   Casting Assistant:
+#       Error:
+#           - test_error_422_get_all_actors
+#       Success:
+#           - test_get_all_actors
+
+
 #----------------------------------------------------------------------------#
+    def test_create_new_actor(self):
+        """Test POST new actor."""
+
+        json_create_actor = {
+            'name' : 'Crisso',
+            'age' : 25
+        } 
+
+        res = self.client().post('/actors', json = json_create_actor)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertTrue(data['success'])
+        self.assertTrue(len(data['created']) != None)
+    
+    def test_error_401_new_actor(self):
+        """Test POST new actor w/o permission."""
+
+        json_create_actor = {
+            'name' : 'Crisso',
+            'age' : 25
+        } 
+
+        res = self.client().post('/actors', json = json_create_actor)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertFalse(data['success'])
+        self.assertEqual(data['message'], 'authentification fails')
+
+    def test_error_422_create_new_actor(self):
+        """Test Error POST new actor."""
+
+        json_create_actor_without_name = {
+            'age' : 25
+        } 
+
+        res = self.client().post('/actors', json = json_create_actor_without_name)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertFalse(data['success'])
+        self.assertEqual(data['message'], 'no name provided')
+
     def test_get_all_actors(self):
         """Test GET all actors."""
         res = self.client().get('/actors?page=1')
@@ -50,6 +103,24 @@ class AgencyTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
         self.assertTrue(len(data['actors']) > 0)
+
+    def test_error_422_get_all_actors(self):
+        """Test GET all actors w/o permissions."""
+        res = self.client().get('/actors?page=1')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertFalse(data['success'])
+        self.assertEqual(data['message'], 'authentification fails')
+
+    def test_error_404_get_actors(self):
+        """Test Error GET all actors."""
+        res = self.client().get('/actors?page=1125125125')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 404)
+        self.assertFalse(data['success'])
+        self.assertEqual(data['message'] , 'no examples found in database.')
 
 # Make the tests conveniently executable.
 # From app directory, run 'python test_app.py' to start tests

@@ -89,7 +89,7 @@ def create_app(test_config=None):
       Success:
         - test_get_all_actors
       Error:
-        - test_error_405_get_actors
+        - test_error_404_get_actors
 
     """
     selection = Actor.query.all()
@@ -112,7 +112,8 @@ def create_app(test_config=None):
       Success:
         - test_create_new_actor
       Error:
-        - test_error_422_get_actors
+        - test_error_422_new_actor
+        - test_error_401_new_actor
 
     """
     # Get request json
