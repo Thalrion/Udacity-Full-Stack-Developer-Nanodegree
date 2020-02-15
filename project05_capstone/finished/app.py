@@ -89,6 +89,7 @@ def create_app(test_config=None):
       Success:
         - test_get_all_actors
       Error:
+        - test_error_401_get_all_actors
         - test_error_404_get_actors
 
     """
@@ -119,6 +120,9 @@ def create_app(test_config=None):
     # Get request json
     body = request.get_json()
 
+    if not body:
+          abort(400, {'message': 'request does not contain a valid JSON body.'})
+
     # Extract name and age value from request body
     name = body.get('name', None)
     age = body.get('age', None)
@@ -144,6 +148,55 @@ def create_app(test_config=None):
     return jsonify({
       'success': True,
       'created': new_actor.id
+    })
+
+  @app.route('/actors/<actor_id>', methods=['PATCH'])
+  @requires_auth('edit:actors')
+  def edit_actors(actor_id, payload):
+    """Edit an existing Actor
+
+    Tested by:
+      Success:
+        - test_edit_actor
+      Error:
+        - test_error_404_edit_actor
+
+    """
+    # Get request json
+    body = request.get_json()
+
+    # Abort if no actor_id or body has been provided
+    if not actor_id:
+      abort(400, {'message': 'please append an actor id to the request url.'})
+
+    if not body:
+      abort(400, {'message': 'request does not contain a valid JSON body.'})
+
+    # Find actor which should be updated by id
+    actor_to_update = Actor.query.filter(Actor.id == actor_id).one_or_none()
+
+    # Extract name and age value from request body
+    # If not given, set existing field values, so no update will happen
+    name = body.get('name', actor_to_update.name)
+    age = body.get('age', actor_to_update.age)
+    gender = body.get('gender', actor_to_update.gender)
+
+    # abort if it would make no sense to make an update
+    if actor_to_update.name == name & actor_to_update.age == age & actor_to_update.gender == gender:
+      abort(422, {'message': 'provided field values are already set. No update needed.'})
+
+    # Set new field values
+    actor_to_update.name = name
+    actor_to_update.age = age
+    actor_to_update.gender = gender
+
+    actor_to_update.update()
+
+    # Return success, updated actor id and updated actor as formatted list
+    return jsonify({
+      'success': True,
+      'created': actor_to_update.id,
+      'actor' : [actor_to_update.format()]
     })
 
   #----------------------------------------------------------------------------#

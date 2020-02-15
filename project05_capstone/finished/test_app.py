@@ -202,7 +202,7 @@ class AgencyTestCase(unittest.TestCase):
         """Test POST new movie."""
 
         json_create_movie = {
-            'title' : 'Crisso',
+            'title' : 'Crisso Movie',
             'release_date' : date.today()
         } 
 
