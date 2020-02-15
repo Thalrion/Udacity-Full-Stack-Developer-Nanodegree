@@ -184,7 +184,7 @@ class AgencyTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertEqual(data['deleted'], 1)
+        self.assertEqual(data['delete'], 1)
 
     def test_error_404_delete_actor(self):
         """Test DELETE non existing actor"""
@@ -270,7 +270,7 @@ class AgencyTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertTrue(len(data['movies']) > 0)
+        self.assertTrue(len(data['movie']) > 0)
 
     def test_error_404_edit_movie(self):
         """Test PATCH with non valid id"""

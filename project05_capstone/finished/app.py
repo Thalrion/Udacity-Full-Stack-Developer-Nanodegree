@@ -97,7 +97,7 @@ def create_app(test_config=None):
     actors_paginated = paginate_results(request, selection)
 
     if len(actors_paginated) == 0:
-      abort(404, {'message': 'no examples found in database.'})
+      abort(404, {'message': 'no actors found in database.'})
 
     return jsonify({
       'success': True,
@@ -194,6 +194,7 @@ def create_app(test_config=None):
     actor_to_update.age = age
     actor_to_update.gender = gender
 
+    # Delete actor with new values
     actor_to_update.update()
 
     # Return success, updated actor id and updated actor as formatted list
@@ -223,6 +224,7 @@ def create_app(test_config=None):
     # Find actor which should be deleted by id
     actor_to_delete = Actor.query.filter(Actor.id == actor_id).one_or_none()
 
+    # If no actor with given id could found, abort 404
     if not actor_to_delete:
         abort(404, {'message': 'Actor with id {} not found in database.'.format(drink_id)})
     
@@ -233,6 +235,160 @@ def create_app(test_config=None):
     return jsonify({
       'success': True,
       'delete': actor_id
+    })
+
+  #----------------------------------------------------------------------------#
+  # Endpoint /movies GET/POST/DELETE/PATCH
+  #----------------------------------------------------------------------------#
+  @app.route('/movies', methods=['GET'])
+  @requires_auth('read:movies')
+  def get_movies(payload):
+    """Returns paginated movies object
+
+    Tested by:
+      Success:
+        - test_get_all_movies
+      Error:
+        - test_error_401_get_all_movies
+        - test_error_404_get_movies
+
+    """
+    selection = movie.query.all()
+    movies_paginated = paginate_results(request, selection)
+
+    if len(movies_paginated) == 0:
+      abort(404, {'message': 'no movies found in database.'})
+
+    return jsonify({
+      'success': True,
+      'movies': movies_paginated
+    })
+
+  @app.route('/movies', methods=['POST'])
+  @requires_auth('create:movies')
+  def insert_movies(payload):
+    """Inserts a new movie
+
+    Tested by:
+      Success:
+        - test_create_new_movie
+      Error:
+        - test_error_422_new_movie
+        - test_error_401_new_movie
+
+    """
+    # Get request json
+    body = request.get_json()
+
+    if not body:
+          abort(400, {'message': 'request does not contain a valid JSON body.'})
+
+    # Extract title and release_date value from request body
+    title = body.get('title', None)
+    release_date = body.get('release_date', None)
+
+    # abort if one of these are missing with appropiate error message
+    if not title:
+      abort(422, {'message': 'no title provided.'})
+
+    if not release_date:
+      abort(422, {'message': 'no "release_date" provided.'})
+
+    # Create new instance of movie & insert it.
+    new_movie = (Movie(
+          title = title, 
+          release_date = release_date
+          ))
+    new_movie.insert()
+
+    return jsonify({
+      'success': True,
+      'created': new_movie.id
+    })
+
+  @app.route('/movies/<movie_id>', methods=['PATCH'])
+  @requires_auth('edit:movies')
+  def edit_movies(movie_id, payload):
+    """Edit an existing Movie
+
+    Tested by:
+      Success:
+        - test_edit_movie
+      Error:
+        - test_error_404_edit_movie
+
+    """
+    # Get request json
+    body = request.get_json()
+
+    # Abort if no movie_id or body has been provided
+    if not movie_id:
+      abort(400, {'message': 'please append an movie id to the request url.'})
+
+    if not body:
+      abort(400, {'message': 'request does not contain a valid JSON body.'})
+
+    # Find movie which should be updated by id
+    movie_to_update = Movie.query.filter(Movie.id == movie_id).one_or_none()
+
+    # Abort 404 if no movie with this id exists
+    if not movie_to_update:
+      abort(404, {'message': 'Movie with id {} not found in database.'.format(drink_id)})
+
+    # Extract title and age value from request body
+    # If not given, set existing field values, so no update will happen
+    title = body.get('title', movie_to_update.title)
+    release_date = body.get('release_date', movie_to_update.release_date)
+
+    # abort if it would make no sense to make an update
+    if movie_to_update.title == title & movie_to_update.release_date == release_date:
+      abort(422, {'message': 'provided field values are already set. No update needed.'})
+
+    # Set new field values
+    movie_to_update.title = title
+    movie_to_update.release_date = release_date
+
+    # Delete movie with new values
+    movie_to_update.update()
+
+    # Return success, updated movie id and updated movie as formatted list
+    return jsonify({
+      'success': True,
+      'created': movie_to_update.id,
+      'movie' : [movie_to_update.format()]
+    })
+
+  @app.route('/movies/<movie_id>', methods=['DELETE'])
+  @requires_auth('delete:movies')
+  def delete_movies(movie_id, payload):
+    """Delete an existing Movie
+
+    Tested by:
+      Success:
+        - test_delete_movie
+      Error:
+        - test_error_401_delete_movie
+        - test_error_404_delete_movie
+
+    """
+    # Abort if no movie_id has been provided
+    if not movie_id:
+      abort(400, {'message': 'please append an movie id to the request url.'})
+  
+    # Find movie which should be deleted by id
+    movie_to_delete = Movie.query.filter(Movie.id == Movie).one_or_none()
+
+    # If no movie with given id could found, abort 404
+    if not movie_to_delete:
+        abort(404, {'message': 'Movie with id {} not found in database.'.format(drink_id)})
+    
+    # Delete movie from database
+    movie_to_delete.delete()
+    
+    # Return success and id from deleted movie
+    return jsonify({
+      'success': True,
+      'delete': movie_id
     })
 
   #----------------------------------------------------------------------------#
@@ -262,7 +418,6 @@ def create_app(test_config=None):
                         "error": 404,
                         "message": get_error_message(error, "resource not found")
                         }), 404
-
 
     @app.errorhandler(AuthError)
     def authentification_failed(AuthError): 
