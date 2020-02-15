@@ -78,12 +78,10 @@ def create_app(test_config=None):
   #----------------------------------------------------------------------------#
 
   #----------------------------------------------------------------------------#
-  # Endpoint /exampleGetEndPoint GET/POST/DELETE
+  # Endpoint /actors GET/POST/DELETE/PATCH
   #----------------------------------------------------------------------------#
-
-
   @app.route('/actors', methods=['GET'])
-  @requires_auth('read:actors') # decorate this endpoint to require a 'get:examples' permission from Auth. Result is accessible via payload argument. Pass no argument if authentification is requiered, but no permission
+  @requires_auth('read:actors')
   def get_actors(payload):
     """Returns paginated actors object
 
@@ -105,17 +103,85 @@ def create_app(test_config=None):
       'actors': actors_paginated
     })
 
+  @app.route('/actors', methods=['POST'])
+  @requires_auth('create:actors')
+  def insert_actors(payload):
+    """Inserts a new Actor
+
+    Tested by:
+      Success:
+        - test_create_new_actor
+      Error:
+        - test_error_422_get_actors
+
+    """
+    # Get request json
+    body = request.get_json()
+
+    # Extract name and age value from request body
+    name = body.get('name', None)
+    age = body.get('age', None)
+
+    # Set gender to value or to 'Other' if not given
+    gender = body.get('gender', 'Other')
+
+    # abort if one of these are missing with appropiate error message
+    if not name:
+      abort(422, {'message': 'no name provided.'})
+
+    if not age:
+      abort(422, {'message': 'no age provided.'})
+
+    # Create new instance of Actor & insert it.
+    new_actor = (Actor(
+          name = name, 
+          age = age,
+          gender = gender
+          ))
+    new_actor.insert()
+
+    return jsonify({
+      'success': True,
+      'created': new_actor.id
+    })
+
   #----------------------------------------------------------------------------#
   # Error Handlers
   #----------------------------------------------------------------------------#
 
-  @app.errorhandler(404)
-  def ressource_not_found(error):
-      return jsonify({
-                      "success": False, 
-                      "error": 404,
-                      "message": get_error_message(error, "resource not found")
-                      }), 404
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({
+                        "success": False, 
+                        "error": 422,
+                        "message": get_error_message(error,"unprocessable")
+                        }), 422
+
+    @app.errorhandler(400)
+    def bad_request(error):
+        return jsonify({
+                        "success": False, 
+                        "error": 400,
+                        "message": get_error_message(error, "resource not found")
+                        }), 400
+
+    @app.errorhandler(404)
+    def ressource_not_found(error):
+        return jsonify({
+                        "success": False, 
+                        "error": 404,
+                        "message": get_error_message(error, "resource not found")
+                        }), 404
+
+
+    @app.errorhandler(AuthError)
+    def authentification_failed(AuthError): 
+        return jsonify({
+                        "success": False, 
+                        "error": AuthError.status_code,
+                        "message": get_error_message(AuthError.error, "authentification fails")
+                        }), 401
+
 
   # After every endpoint has been created, return app
   return app

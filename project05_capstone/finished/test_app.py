@@ -32,7 +32,6 @@ class AgencyTestCase(unittest.TestCase):
             self.db.init_app(self.app)
             # create all tables
             self.db.create_all()
-            self.db_drop_and_create_all
     
     def tearDown(self):
         """Executed after reach test"""
