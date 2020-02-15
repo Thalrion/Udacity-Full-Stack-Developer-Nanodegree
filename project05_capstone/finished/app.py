@@ -48,7 +48,7 @@ def create_app(test_config=None):
           # otherwise, return given default text
           return default_text
 
-  def paginate_questions(request, selection):
+  def paginate_examples(request, selection):
     '''Paginates and formats example 
 
     Parameters:
@@ -56,7 +56,7 @@ def create_app(test_config=None):
       * <database selection> selection of examples, queried from database
     
     Returns:
-      * <list> list of dictionaries of examples, max. 10 questions
+      * <list> list of dictionaries of examples, max. 10 examples
 
     '''
     # Get page from request. If not given, default to 1
@@ -68,7 +68,7 @@ def create_app(test_config=None):
 
     # Format selection into list of dicts and return sliced
     examples = [example.format() for example in selection]
-    return questions[start:end]
+    return examples[start:end]
 
   #----------------------------------------------------------------------------#
   #  API Endpoints
@@ -85,7 +85,7 @@ def create_app(test_config=None):
   @app.route('/exampleGetEndPoint', methods=['GET'])
   @requires_auth('get:examples') # decorate this endpoint to require a 'get:examples' permission from Auth. Result is accessible via payload argument. Pass no argument if authentification is requiered, but no permission
   def example_get_endPoint(payload):
-    """Returns 1 example object
+    """Returns paginated example object
 
     Tested by:
       Success:
@@ -94,14 +94,15 @@ def create_app(test_config=None):
         - test_error_405_get_all_examples
 
     """
-    this_example = Example.query.all()
+    selection = Example.query.all()
+    example_paginated = paginate_examples(request, selection)
 
-    if len(this_example) == 0:
+    if len(example_paginated) == 0:
       abort(404, {'message': 'no examples found in database.'})
 
     return jsonify({
       'success': True,
-      'drinks': this_example
+      'drinks': example_paginated
     })
 
   #----------------------------------------------------------------------------#

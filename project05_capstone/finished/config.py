@@ -8,8 +8,8 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # TODO: Change values to your database setup information
 database_setup = {
-    "database_name_production" : "capstone",
-    "database_name_test" : "capstone_test",
+    "database_name_production" : "example",
+    "database_name_test" : "example_test",
     "user_name" : "postgres", # default postgres user name
     "password" : "testpassword123", # if applicable. If no password, just type in None
     "port" : "localhost:5432" # default postgres port
