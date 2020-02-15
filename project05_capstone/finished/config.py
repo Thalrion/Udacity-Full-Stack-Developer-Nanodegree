@@ -21,3 +21,7 @@ auth0_config = {
     "ALGORITHMS" : ["RS256"],
     "API_AUDIENCE" : "Example"
 }
+
+pagination = {
+    "example" : 10 # Limits returned rows of API
+}

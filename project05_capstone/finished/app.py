@@ -4,6 +4,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from auth import AuthError, requires_auth
 from models import db_drop_and_create_all, setup_db, Example
+from config import pagination
+
+EXAMPLES_PER_PAGE = pagination['example']
 
 def create_app(test_config=None):
   '''create and configure the app'''
@@ -44,6 +47,28 @@ def create_app(test_config=None):
       except TypeError:
           # otherwise, return given default text
           return default_text
+
+  def paginate_questions(request, selection):
+    '''Paginates and formats example 
+
+    Parameters:
+      * <HTTP object> request, that may contain a "page" value
+      * <database selection> selection of examples, queried from database
+    
+    Returns:
+      * <list> list of dictionaries of examples, max. 10 questions
+
+    '''
+    # Get page from request. If not given, default to 1
+    page = request.args.get('page', 1, type=int)
+    
+    # Calculate start and end slicing
+    start =  (page - 1) * EXAMPLES_PER_PAGE
+    end = start + EXAMPLES_PER_PAGE
+
+    # Format selection into list of dicts and return sliced
+    examples = [example.format() for example in selection]
+    return questions[start:end]
 
   #----------------------------------------------------------------------------#
   #  API Endpoints
