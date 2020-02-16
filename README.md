@@ -78,6 +78,7 @@ est. time spent: `24 hours` (including pre-courses)
 Deployed a Flask API to a Kubernetes cluster using Docker, AWS EKS, CodePipeline, and CodeBuild.
 
 (Application has been teared down after successfull review to avoid incurring additional costs)
+
 [View Project](https://github.com/Thalrion/FSND-Deploy-Flask-App-to-Kubernetes-Using-EKS).
 
 Used tech stack:
@@ -92,3 +93,4 @@ Used tech stack:
 
 ### Project 5: Capstone
 
+est. time spent: `14 hours` (no precourses)
