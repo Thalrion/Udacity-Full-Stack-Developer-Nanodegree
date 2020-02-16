@@ -1,3 +1,14 @@
+## FSND: Capstone Project
+
+This is the last project of the `Udacity-Full-Stack-Nanodegree` Course.
+It covers following technical topics in 1 app:
+
+1. Database modeling with `postgres` & `sqlalchemy` (see `models.py`)
+2. API Design with `Flask` (see `app.py`)
+3. Automated testing with `Unittest` (see `test_app`)
+4. Authorization & Role based Authentification with `Auth0` (see `auth.py`)
+5. Deployment on `Heroko` (see `setup.sh`)
+
 ## Start Project locally
 
 Make sure you `cd` into the correct folder (with all app files) before following the setup steps.
@@ -23,7 +34,6 @@ $ pip install -r requirements.txt
  ```python
 database_setup = {
     "database_name_production" : "agency",
-    "database_name_test" : "agency_test",
     "user_name" : "postgres", # default postgres user name
     "password" : "testpassword123", # if applicable. If no password, just type in None
     "port" : "localhost:5432" # default postgres port
@@ -33,9 +43,13 @@ database_setup = {
  - Just change `user_name`, `password` and `port` to whatever you choose while installing postgres.
 >_tip_: `user_name` usually defaults to `postgres` and `port` always defaults to `localhost:5432` while installing postgres, most of the time you just need to change the `password`.
 
-4. Setup Auth0
+1. Setup Auth0
+If you only want to test the API (i.e. Project Reviewer), you can
+simply take the existing bearer tokens in `config.py`. They should
+be valid until 23/02/2020.
+
 If you already know your way around `Auth0`, just insert your data 
-into `config.py` => auth0_config
+into `config.py` => auth0_config.
 
 If you are new, follow [these](#authentification) steps:
 
@@ -43,6 +57,22 @@ If you are new, follow [these](#authentification) steps:
   ```bash 
   $ python app.py
   ```
+
+6. (optional) To execute tests, run
+```bash 
+$ python test_app.py
+```
+If you choose to run all tests, it should give this response if everything went fine:
+
+```bash
+$ python test_app.py
+.........................
+----------------------------------------------------------------------
+Ran 25 tests in 18.132s
+
+OK
+
+```
 
 ## API Documentation
 <a name="api-documentaton"></a>
@@ -489,7 +519,7 @@ All API Endpoints are decorated with Auth0 permissions. To use the project local
 
 1. Login to https://manage.auth0.com/ 
 2. Click on Applications Tab
-3. + Create Application
+3. Create Application
 4. Give it a name like `Music` and select "Regular Web Application"
 5. Go to Settings and find `domain`. Copy & paste it into config.py => auth0_config['AUTH0_DOMAIN'] (i.e. replace `"example-matthew.eu.auth0.com"`)
 6. Click on API Tab 
