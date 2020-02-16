@@ -1,6 +1,6 @@
 
 import os
-from sqlalchemy import Column, String, Integer, create_engine, Date, Decimal
+from sqlalchemy import Column, String, Integer, create_engine, Date, Float
 from flask_sqlalchemy import SQLAlchemy
 import json
 from config import database_setup, SQLALCHEMY_TRACK_MODIFICATIONS
@@ -55,6 +55,17 @@ def db_init_records():
     new_movie.insert()
     db.session.execute(new_performance) 
     db.session.commit()
+
+#----------------------------------------------------------------------------#
+# Performance Junction Object N:N 
+#----------------------------------------------------------------------------#
+
+# Instead of creating a new Table, the documentation recommends to create a association table
+Performance = db.Table('Performance', db.Model.metadata,
+    db.Column('Movie_id', db.Integer, db.ForeignKey('movies.id')),
+    db.Column('Actor_id', db.Integer, db.ForeignKey('actors.id')),
+    db.Column('actor_fee', db.Float)
+)
 
 #----------------------------------------------------------------------------#
 # Actors Model 
@@ -126,13 +137,3 @@ class Movie(db.Model):
       'release_date': self.release_date
     }
 
-#----------------------------------------------------------------------------#
-# Performance Junction Object N:N 
-#----------------------------------------------------------------------------#
-
-# Instead of creating a new Table, the documentation recommends to create a association table
-Performance = db.Table('Performance', db.Model.metadata,
-    db.Column('Movie_id', db.Integer, db.ForeignKey('Movie.id')),
-    db.Column('Actor_id', db.Integer, db.ForeignKey('Actor.id')),
-    db.Column('actor_fee', db.Decimal)
-)

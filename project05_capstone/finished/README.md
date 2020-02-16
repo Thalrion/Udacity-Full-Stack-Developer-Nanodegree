@@ -1,3 +1,49 @@
+## Start Project locally
+
+Make sure you `cd` into the correct folder (with all app files) before following the setup steps.
+Also, you need the latest version of [Python 3](https://www.python.org/downloads/)
+and [postgres](https://www.postgresql.org/download/) installed on your machine.
+
+To start and run the local development server,
+
+1. Initialize and activate a virtualenv:
+  ```bash
+  $ virtualenv --no-site-packages env
+  $ source env/bin/activate
+  ```
+
+2. Install the dependencies:
+```bash
+$ pip install -r requirements.txt
+```
+
+3. Change database config so it can connect to your local postgres database
+- Open `config.py` with your editor of choice. 
+- Here you can see this dict:
+ ```python
+database_setup = {
+    "database_name_production" : "agency",
+    "database_name_test" : "agency_test",
+    "user_name" : "postgres", # default postgres user name
+    "password" : "testpassword123", # if applicable. If no password, just type in None
+    "port" : "localhost:5432" # default postgres port
+}
+```
+
+ - Just change `user_name`, `password` and `port` to whatever you choose while installing postgres.
+>_tip_: `user_name` usually defaults to `postgres` and `port` always defaults to `localhost:5432` while installing postgres, most of the time you just need to change the `password`.
+
+4. Setup Auth0
+If you already know your way around `Auth0`, just insert your data 
+into `config.py` => auth0_config
+
+If you are new, follow [these](#authentification) steps:
+
+5. Run the development server:
+  ```bash 
+  $ python app.py
+  ```
+
 ## API Documentation
 <a name="api-documentaton"></a>
 ## API Documentation
@@ -420,4 +466,28 @@ will return
 }
 ```
 
+# <a name="authentification"></a>
 ## Authentification
+### Create an App & API
+
+1. Login to https://manage.auth0.com/ 
+2. Click on Applications Tab
+3. + Create Application
+4. Give it a name like `Music` and select "Regular Web Application"
+5. Go to Settings and find `domain`. Copy & paste it into config.py => auth0_config['AUTH0_DOMAIN'] (i.e. replace `"example-matthew.eu.auth0.com"`)
+6. Click on API Tab 
+7. Create a new API:
+   1. Name: `Music`
+   2. Identifier `Music`
+   3. Keep Algorithm as it is
+8. Go to Settings and find `Identifier`. Copy & paste it into config.py => auth0_config['API_AUDIENCE'] (i.e. replace `"Example"`)
+
+### Create Roles & Permissions
+
+1. Before creating `Roles & Permissions`, you need to `Enable RBAC` in your API (API => Click on your API Name => Settings = Enable RBAC => Save)
+2. First, create a new Role under `Users and Roles` => `Roles` => `Create Roles`
+3. Give it a descriptive name like `Casting Assistant`.
+4. Go back to the API Tab and find your newly created API. Click on Permissions.
+5. Create & assign all neede permissions accordingly 
+6. After you created all permissions this app needs, go back to `Users and Roles` => `Roles` and select the role you recently created.
+6. Under `Permissions`, assign all permissions you want this role to have. 
