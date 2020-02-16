@@ -4,29 +4,38 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 from app import create_app
 from models import setup_db, db_drop_and_create_all, Actor, Movie, Performance
-from config import database_setup
+from config import database_setup, bearer_tokens
 from sqlalchemy import desc
 from datetime import date
 
+# Create dict with Authorization key and Bearer token as values. 
+# Later used by test classes as Header
+
+casting_assistant_auth_header = {
+    'Authorization': bearer_tokens['casting_assistant']
+}
+
+casting_director_auth_header = {
+    'Authorization': bearer_tokens['casting_director']
+}
+
+executive_producer_auth_header = {
+    'Authorization': bearer_tokens['executive_producer']
+}
+
+
 #----------------------------------------------------------------------------#
-# RBAC Tests:
+# RBAC Tests I: Missing Authorization | Missing Authentificaton
 #   Casting Assistant:
-#       Error:
-#           - test_error_401_get_all_movies
-#       Success:
-#           - test_get_all_movies
-
+#   - test_error_401_get_all_movies (Authorization)
 #   Casting Director:
-#       Error:
-#           - test_error_401_new_movie
-#       Success:
-#           - test_create_new_movie
-
+#   - test_error_401_delete_actor (Authorization)
+#   - test_error_403_delete_actor (Authentificaton)
 #   Executive Producer:
-#       Error:
-#           - test_error_401_delete_movie
-#       Success:
-#           - test_delete_movie
+#   - test_error_401_delete_movie (Authorization)
+#   - test_error_403_delete_movie (Authentificaton)
+
+# RBAC Tests II: Missing Authentificaton (i.e. missing permissions)
 
 #----------------------------------------------------------------------------#
 
@@ -74,7 +83,7 @@ class AgencyTestCase(unittest.TestCase):
             'age' : 25
         } 
 
-        res = self.client().post('/actors', json = json_create_actor)
+        res = self.client().post('/actors', json = json_create_actor, headers = casting_director_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -82,7 +91,7 @@ class AgencyTestCase(unittest.TestCase):
         self.assertTrue(len(data['created']) != None)
     
     def test_error_401_new_actor(self):
-        """Test POST new actor w/o permission."""
+        """Test POST new actor w/o Authorization."""
 
         json_create_actor = {
             'name' : 'Crisso',
@@ -94,7 +103,7 @@ class AgencyTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 401)
         self.assertFalse(data['success'])
-        self.assertEqual(data['message'], 'authentification fails')
+        self.assertEqual(data['message'], 'Authorization header is expected.')
 
     def test_error_422_create_new_actor(self):
         """Test Error POST new actor."""
@@ -103,7 +112,7 @@ class AgencyTestCase(unittest.TestCase):
             'age' : 25
         } 
 
-        res = self.client().post('/actors', json = json_create_actor_without_name)
+        res = self.client().post('/actors', json = json_create_actor_without_name, headers = casting_director_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -116,7 +125,7 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_get_all_actors(self):
         """Test GET all actors."""
-        res = self.client().get('/actors?page=1')
+        res = self.client().get('/actors?page=1', headers = casting_assistant_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -124,17 +133,17 @@ class AgencyTestCase(unittest.TestCase):
         self.assertTrue(len(data['actors']) > 0)
 
     def test_error_401_get_all_actors(self):
-        """Test GET all actors w/o permissions."""
+        """Test GET all actors w/o Authorization."""
         res = self.client().get('/actors?page=1')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
         self.assertFalse(data['success'])
-        self.assertEqual(data['message'], 'authentification fails')
+        self.assertEqual(data['message'], 'Authorization header is expected.')
 
     def test_error_404_get_actors(self):
         """Test Error GET all actors."""
-        res = self.client().get('/actors?page=1125125125')
+        res = self.client().get('/actors?page=1125125125', headers = casting_assistant_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -147,7 +156,7 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_edit_actor(self):
         """Test PATCH existing actors"""
-        res = self.client().patch('/actors/1')
+        res = self.client().patch('/actors/1', headers = casting_director_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -157,7 +166,7 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_error_404_edit_actor(self):
         """Test PATCH with non valid id"""
-        res = self.client().patch('/actors/123412')
+        res = self.client().patch('/actors/123412', headers = casting_director_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -169,17 +178,26 @@ class AgencyTestCase(unittest.TestCase):
 #----------------------------------------------------------------------------#
 
     def test_error_401_delete_actor(self):
-        """Test DELETE existing actor w/o permissions"""
+        """Test DELETE existing actor w/o Authorization"""
         res = self.client().delete('/actors/1')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
         self.assertFalse(data['success'])
-        self.assertEqual(data['message'], 'authentification fails')
+        self.assertEqual(data['message'], 'Authorization header is expected.')
+
+    def test_error_403_delete_actor(self):
+        """Test DELETE existing actor with missing permissions"""
+        res = self.client().delete('/actors/1', headers = casting_assistant_auth_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 403)
+        self.assertFalse(data['success'])
+        self.assertEqual(data['message'], 'Permission not found.')
 
     def test_delete_actor(self):
         """Test DELETE existing actor"""
-        res = self.client().delete('/actors/1')
+        res = self.client().delete('/actors/1', headers = casting_director_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -188,7 +206,7 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_error_404_delete_actor(self):
         """Test DELETE non existing actor"""
-        res = self.client().delete('/actors/1')
+        res = self.client().delete('/actors/1', headers = casting_director_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -207,7 +225,7 @@ class AgencyTestCase(unittest.TestCase):
             'release_date' : date.today()
         } 
 
-        res = self.client().post('/movies', json = json_create_movie)
+        res = self.client().post('/movies', json = json_create_movie, headers = executive_producer_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -221,7 +239,7 @@ class AgencyTestCase(unittest.TestCase):
             'release_date' : date.today()
         } 
 
-        res = self.client().post('/movies', json = json_create_movie_without_name)
+        res = self.client().post('/movies', json = json_create_movie_without_name, headers = executive_producer_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 422)
@@ -234,7 +252,7 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_get_all_movies(self):
         """Test GET all movies."""
-        res = self.client().get('/movies?page=1')
+        res = self.client().get('/movies?page=1', headers = casting_assistant_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -242,17 +260,17 @@ class AgencyTestCase(unittest.TestCase):
         self.assertTrue(len(data['movies']) > 0)
 
     def test_error_401_get_all_movies(self):
-        """Test GET all movies w/o permissions."""
+        """Test GET all movies w/o Authorization."""
         res = self.client().get('/movies?page=1')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
         self.assertFalse(data['success'])
-        self.assertEqual(data['message'], 'authentification fails')
+        self.assertEqual(data['message'], 'Authorization header is expected.')
 
     def test_error_404_get_movies(self):
         """Test Error GET all movies."""
-        res = self.client().get('/movies?page=1125125125')
+        res = self.client().get('/movies?page=1125125125', headers = casting_assistant_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -265,7 +283,7 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_edit_movie(self):
         """Test PATCH existing movies"""
-        res = self.client().patch('/movies/1')
+        res = self.client().patch('/movies/1', headers = executive_producer_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -274,7 +292,7 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_error_404_edit_movie(self):
         """Test PATCH with non valid id"""
-        res = self.client().patch('/movies/123412')
+        res = self.client().patch('/movies/123412', headers = executive_producer_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -286,17 +304,26 @@ class AgencyTestCase(unittest.TestCase):
 #----------------------------------------------------------------------------#
 
     def test_error_401_delete_movie(self):
-        """Test DELETE existing movie w/o permissions"""
+        """Test DELETE existing movie w/o Authorization"""
         res = self.client().delete('/movies/1')
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
         self.assertFalse(data['success'])
-        self.assertEqual(data['message'], 'authentification fails')
+        self.assertEqual(data['message'], 'Authorization header is expected.')
+
+    def test_error_403_delete_movie(self):
+        """Test DELETE existing movie with wrong permissions"""
+        res = self.client().delete('/movies/1')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 403, headers = casting_assistant_auth_header)
+        self.assertFalse(data['success'])
+        self.assertEqual(data['message'], 'Permission not found.')
 
     def test_delete_movie(self):
         """Test DELETE existing movie"""
-        res = self.client().delete('/movies/1')
+        res = self.client().delete('/movies/1', headers = executive_producer_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -305,7 +332,7 @@ class AgencyTestCase(unittest.TestCase):
 
     def test_error_404_delete_movie(self):
         """Test DELETE non existing movie"""
-        res = self.client().delete('/movies/1')
+        res = self.client().delete('/movies/1', headers = executive_producer_auth_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)

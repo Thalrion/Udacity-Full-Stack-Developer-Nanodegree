@@ -13,7 +13,7 @@ def create_app(test_config=None):
   
   app = Flask(__name__)
   setup_db(app)
-  # db_drop_and_create_all() # uncomment this if you want to start a new database on app refresh
+  db_drop_and_create_all() # uncomment this if you want to start a new database on app refresh
 
   #----------------------------------------------------------------------------#
   # CORS (API configuration)
@@ -152,7 +152,7 @@ def create_app(test_config=None):
 
   @app.route('/actors/<actor_id>', methods=['PATCH'])
   @requires_auth('edit:actors')
-  def edit_actors(actor_id, payload):
+  def edit_actors(payload, actor_id):
     """Edit an existing Actor
 
     Tested by:
@@ -206,7 +206,7 @@ def create_app(test_config=None):
 
   @app.route('/actors/<actor_id>', methods=['DELETE'])
   @requires_auth('delete:actors')
-  def delete_actors(actor_id, payload):
+  def delete_actors(payload, actor_id):
     """Delete an existing Actor
 
     Tested by:
@@ -308,7 +308,7 @@ def create_app(test_config=None):
 
   @app.route('/movies/<movie_id>', methods=['PATCH'])
   @requires_auth('edit:movies')
-  def edit_movies(movie_id, payload):
+  def edit_movies(payload, movie_id):
     """Edit an existing Movie
 
     Tested by:
@@ -395,37 +395,37 @@ def create_app(test_config=None):
   # Error Handlers
   #----------------------------------------------------------------------------#
 
-    @app.errorhandler(422)
-    def unprocessable(error):
-        return jsonify({
-                        "success": False, 
-                        "error": 422,
-                        "message": get_error_message(error,"unprocessable")
-                        }), 422
+  @app.errorhandler(422)
+  def unprocessable(error):
+      return jsonify({
+                      "success": False, 
+                      "error": 422,
+                      "message": get_error_message(error,"unprocessable")
+                      }), 422
 
-    @app.errorhandler(400)
-    def bad_request(error):
-        return jsonify({
-                        "success": False, 
-                        "error": 400,
-                        "message": get_error_message(error, "resource not found")
-                        }), 400
+  @app.errorhandler(400)
+  def bad_request(error):
+      return jsonify({
+                      "success": False, 
+                      "error": 400,
+                      "message": get_error_message(error, "bad request")
+                      }), 400
 
-    @app.errorhandler(404)
-    def ressource_not_found(error):
-        return jsonify({
-                        "success": False, 
-                        "error": 404,
-                        "message": get_error_message(error, "resource not found")
-                        }), 404
+  @app.errorhandler(404)
+  def ressource_not_found(error):
+      return jsonify({
+                      "success": False, 
+                      "error": 404,
+                      "message": get_error_message(error, "resource not found")
+                      }), 404
 
-    @app.errorhandler(AuthError)
-    def authentification_failed(AuthError): 
-        return jsonify({
-                        "success": False, 
-                        "error": AuthError.status_code,
-                        "message": get_error_message(AuthError.error, "authentification fails")
-                        }), 401
+  @app.errorhandler(AuthError)
+  def authentification_failed(AuthError): 
+      return jsonify({
+                      "success": False, 
+                      "error": AuthError.status_code,
+                      "message": get_error_message(AuthError.error, "authentification fails")
+                      }), 401
 
 
   # After every endpoint has been created, return app
@@ -434,4 +434,4 @@ def create_app(test_config=None):
 APP = create_app()
 
 if __name__ == '__main__':
-    APP.run(host='0.0.0.0', port=8080, debug=True)
+    APP.run(host='0.0.0.0', port=8080, debug=False)

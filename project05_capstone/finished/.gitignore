@@ -1,2 +1,4 @@
 # config.py 
-pycache
+__pycache__
+.vscode
+env

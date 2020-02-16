@@ -117,9 +117,16 @@ $ curl -X GET http://127.0.0.1:8080/actors?page1
 #### Example response
 ```js
 {
+  "actors": [
+    {
+      "age": 25,
+      "gender": "Male",
+      "id": 1,
+      "name": "Matthew"
+    }
+  ],
   "success": true
 }
-
 ```
 #### Errors
 If you try fetch a page which does not have any actors, you will encounter an error which looks like this:
@@ -468,7 +475,11 @@ will return
 
 # <a name="authentification"></a>
 ## Authentification
-### Create an App & API
+
+All API Endpoints are decorated with Auth0 permissions. To use the project locally, you need to config Auth0 accordingly
+
+### Auth0 for locally use
+#### Create an App & API
 
 1. Login to https://manage.auth0.com/ 
 2. Click on Applications Tab
@@ -482,9 +493,10 @@ will return
    3. Keep Algorithm as it is
 8. Go to Settings and find `Identifier`. Copy & paste it into config.py => auth0_config['API_AUDIENCE'] (i.e. replace `"Example"`)
 
-### Create Roles & Permissions
+#### Create Roles & Permissions
 
 1. Before creating `Roles & Permissions`, you need to `Enable RBAC` in your API (API => Click on your API Name => Settings = Enable RBAC => Save)
+2. Also, check the button `Add Permissions in the Access Token`.
 2. First, create a new Role under `Users and Roles` => `Roles` => `Create Roles`
 3. Give it a descriptive name like `Casting Assistant`.
 4. Go back to the API Tab and find your newly created API. Click on Permissions.
