@@ -46,7 +46,6 @@ If you are new, follow [these](#authentification) steps:
 
 ## API Documentation
 <a name="api-documentaton"></a>
-## API Documentation
 
 Here you can find all existing endpoints, which methods can be used, how to work with them & example responses you´ll get.
 
@@ -267,7 +266,7 @@ $ curl -X DELETE http://127.0.0.1:8080/actors/1
 #### Example response
 ```js
 {
-    "delete": 5,
+    "deleted": 5,
     "success": true
 }
 
@@ -312,6 +311,13 @@ $ curl -X GET http://127.0.0.1:8080/movies?page1
 #### Example response
 ```js
 {
+  "movies": [
+    {
+      "id": 1,
+      "release_date": "Sun, 16 Feb 2020 00:00:00 GMT",
+      "title": "Matthew first Movie"
+    }
+  ],
   "success": true
 }
 
@@ -451,7 +457,7 @@ $ curl -X DELETE http://127.0.0.1:8080/movies/1
 #### Example response
 ```js
 {
-    "delete": 5,
+    "deleted": 5,
     "success": true
 }
 
