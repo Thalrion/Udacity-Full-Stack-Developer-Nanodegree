@@ -3,10 +3,9 @@
 ## Content
 
 1. [Motivation](#motivation)
-2. [Notes to Project Reviewer](#notes)
-3. [Start Project locally](#start-locally)
-4. [API Documentation](#api)
-5. [Authentification](#authentification)
+2. [Start Project locally](#start-locally)
+3. [API Documentation](#api)
+4. [Authentification](#authentification)
 
 <a name="motivation"></a>
 ## Motivations & Covered Topics
@@ -19,29 +18,6 @@ It covers following technical topics in 1 app:
 3. Automated testing with `Unittest` (see `test_app`)
 4. Authorization & Role based Authentification with `Auth0` (see `auth.py`)
 5. Deployment on `Heroku`
-
-<a name="notes"></a>
-## Notes to Project Reviewer
-
-You can use `Postman` to test my API endpoints with following URL and Bearer tokens.
-Additionally, you can follow [these steps](#start-locally) and simply run all tests included in `test_app.py`.
-
-App URL:
-
-**_https://artist-capstone-fsnd-matthew.herokuapp.com_**
-
-Authentification for 3 roles:
-They are valid until 17.02.2020 15:45 UTC (24 hours after submission)
-
-1. Casting Assistant: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik16azVRVUk0TXpSR04wSXhOVU13TkRrME16QXdNMFpHTmtFMU1VWXdPRUpCTmpnMFJrVTBSZyJ9.eyJpc3MiOiJodHRwczovL2ZzbmQtbWF0dGhldy5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU0N2VmNTg3ZWY5YjEwZjA0ZmQ5M2MzIiwiYXVkIjoiTXVzaWMiLCJpYXQiOjE1ODE4NjM2MTMsImV4cCI6MTU4MTk1MDAxMywiYXpwIjoiVGh2aG9mdmtkRTQwYlEzTkMzSzdKdFdSSzdSMzFOZDciLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbInJlYWQ6YWN0b3JzIiwicmVhZDptb3ZpZXMiXX0.jajc2ZjBofqvSv7b6qXSm8cccVu9RNQsHAsvjsSnxq0K7vnsDibuGfIhFoqxxA1Bw_Nd9b5xZHmNa61rQieVV--UeRnNkjC1O-uqVkM2zGrw7xJ3vO3M0OLpLLcfW2kWkcR5dJXSCZk2KIb0ZSY-9GIoci8hEbbVaxCLIpUGNZnJAOD6Fm56gVq1ymS_bf1L_JoovJdsua4eZI2uapnFWIW8m92zt-pHe5Q6HxOHdqiGVZGP_gd5sJDt1c8fMtqD0L_YAHXIvS_1JN-hAOQLs9FCt3s3NDdy72APld-Beci9LV82Eq-Mmbh_YIdfujiYOBkUx2zFpgqdge_czUWDgQ`
-
-2. Casting Director: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik16azVRVUk0TXpSR04wSXhOVU13TkRrME16QXdNMFpHTmtFMU1VWXdPRUpCTmpnMFJrVTBSZyJ9.eyJpc3MiOiJodHRwczovL2ZzbmQtbWF0dGhldy5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU0N2VmOTA3ZWY5YjEwZjA0ZmQ5M2ZiIiwiYXVkIjoiTXVzaWMiLCJpYXQiOjE1ODE4NjM2OTksImV4cCI6MTU4MTk1MDA5OSwiYXpwIjoiVGh2aG9mdmtkRTQwYlEzTkMzSzdKdFdSSzdSMzFOZDciLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImNyZWF0ZTphY3RvcnMiLCJkZWxldGU6YWN0b3JzIiwiZWRpdDphY3RvcnMiLCJlZGl0Om1vdmllcyIsInJlYWQ6YWN0b3JzIiwicmVhZDptb3ZpZXMiXX0.IH-B_ZHd9b7vPjFCVrWnet5x-dwVhHOn7Q1du3k7bqfgrcI243bSsTCI6Z5M_uBkdYpqzBEIfBVBGjHEz-i-_y9_3AvWA1rAVruIy1UPbMQ5g1M3dbaj30oYjqmtNGlzGrpKpb7VD90P8NIvKfycglNz26aaaI-oic2S7FZmDmA1lec3bPuoAZVwFYlkAjVIkXqdrHnmq1p3VyUm8L4ZZdTBLyEOEIHoro1zi9YiJ_Ygsv4IaKZqnhm9J4mhDuvT9GDrn5QRXH5GnZx1maOJVxomdBjSxoKrZJKz8QglDaBp2dK41NxwVpbI6NwN8bs2Akh80pirJnMixbfEisyfrg`
-
-3. Executive Direcor: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik16azVRVUk0TXpSR04wSXhOVU13TkRrME16QXdNMFpHTmtFMU1VWXdPRUpCTmpnMFJrVTBSZyJ9.eyJpc3MiOiJodHRwczovL2ZzbmQtbWF0dGhldy5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU0N2VmYzc2N2YxYmEwZWJiNDIwMTYzIiwiYXVkIjoiTXVzaWMiLCJpYXQiOjE1ODE4NjM1MzcsImV4cCI6MTU4MTk0OTkzNywiYXpwIjoiVGh2aG9mdmtkRTQwYlEzTkMzSzdKdFdSSzdSMzFOZDciLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImNyZWF0ZTphY3RvcnMiLCJjcmVhdGU6bW92aWVzIiwiZGVsZXRlOmFjdG9ycyIsImRlbGV0ZTptb3ZpZXMiLCJlZGl0OmFjdG9ycyIsImVkaXQ6bW92aWVzIiwicmVhZDphY3RvcnMiLCJyZWFkOm1vdmllcyJdfQ.EPOG3bi_L8tfEgcKntjhJYWI56L6cl1vdkXMI9fQr0uMAdthpuFjIKpSBNVdvb2nAHEy-APDkfsmHUeZcXqjhJsRwF4_u74pKqqWIE0gSWRVThT0w_GuR4CCQlbRkliEKAVOFjLTQTA5XP6oj5dfNDrM-Kar5uNImaXnxa9Jh3oFZKlN9mChob3nGtxRq6Zue1q319vKxQwhEPFrUBIVexn74UKoR3jHjvl-jafHZPnpPe4sxKsL502fHRLeiXWBgzLQoso_nkl6AUsfiHB7M59TVP7QHFch0BuOYsVf0WaG7fQQ0kguUTkOTEeJSQUZQBkPvlrARgMQXS4q6NJHVQ`
-
-For Instructions on how to use Authentification, follow [this link](#authentification-bearer).
-
-`test_app.py` has a comment section on top to list existing `RBAC Tests` for all roles.
 
 <a name="start-locally"></a>
 ## Start Project locally

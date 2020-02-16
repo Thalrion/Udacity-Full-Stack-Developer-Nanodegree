@@ -104,5 +104,6 @@ It covers following technical topics in 1 app:
 4. Authorization & Role based Authentification with `Auth0` (see `auth.py`)
 5. Deployment on `Heroku` (see `setup.sh`)
 
+[View Project](https://github.com/Thalrion/Udacity-Full-Stack-Developer-Nanodegree/tree/master/project05_capstone/finished).
 
 
