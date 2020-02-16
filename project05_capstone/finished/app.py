@@ -13,7 +13,7 @@ def create_app(test_config=None):
   
   app = Flask(__name__)
   setup_db(app)
-  db_drop_and_create_all() # uncomment this if you want to start a new database on app refresh
+  # db_drop_and_create_all() # uncomment this if you want to start a new database on app refresh
 
   #----------------------------------------------------------------------------#
   # CORS (API configuration)
@@ -423,7 +423,7 @@ def create_app(test_config=None):
   # After every endpoint has been created, return app
   return app
 
-APP = create_app()
+app = create_app()
 
 if __name__ == '__main__':
-    APP.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)

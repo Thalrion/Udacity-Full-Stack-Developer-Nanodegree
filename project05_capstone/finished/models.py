@@ -1,30 +1,27 @@
-
 import os
 from sqlalchemy import Column, String, Integer, create_engine, Date, Float
 from flask_sqlalchemy import SQLAlchemy
 import json
-from config import database_setup, SQLALCHEMY_TRACK_MODIFICATIONS
 from datetime import date
 
 #----------------------------------------------------------------------------#
 # Database Setup 
 #----------------------------------------------------------------------------#
 
-database_path = "postgres://{}:{}@{}/{}".format(database_setup["user_name"], database_setup["password"], database_setup["port"], database_setup["database_name_production"])
+database_path = os.environ['DATABASE_URL']
 
 db = SQLAlchemy()
 
 def setup_db(app, database_path=database_path):
     '''binds a flask application and a SQLAlchemy service'''
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = SQLALCHEMY_TRACK_MODIFICATIONS
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
     db.create_all()
 
 def db_drop_and_create_all():
     '''drops the database tables and starts fresh
-
     can be used to initialize a clean database
     '''
     db.drop_all()
@@ -136,4 +133,3 @@ class Movie(db.Model):
       'title' : self.title,
       'release_date': self.release_date
     }
-

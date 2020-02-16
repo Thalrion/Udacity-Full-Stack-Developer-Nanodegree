@@ -4,7 +4,7 @@ This is the last project of the `Udacity-Full-Stack-Nanodegree` Course.
 It covers following technical topics in 1 app:
 
 1. Database modeling with `postgres` & `sqlalchemy` (see `models.py`)
-2. API Design with `Flask` (see `app.py`)
+2. API to performance CRUD Operations on database with `Flask` (see `app.py`)
 3. Automated testing with `Unittest` (see `test_app`)
 4. Authorization & Role based Authentification with `Auth0` (see `auth.py`)
 5. Deployment on `Heroko` (see `setup.sh`)
@@ -51,7 +51,7 @@ be valid until 23/02/2020.
 If you already know your way around `Auth0`, just insert your data 
 into `config.py` => auth0_config.
 
-If you are new, follow [these](#authentification) steps:
+If you are new, follow [these](#authentification) steps.
 
 5. Run the development server:
   ```bash 

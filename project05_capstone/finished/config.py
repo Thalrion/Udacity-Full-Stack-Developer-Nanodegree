@@ -4,17 +4,7 @@ SECRET_KEY = os.urandom(32)
 
 # Grabs the folder where the script runs.
 basedir = os.path.abspath(os.path.dirname(__file__))
-SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-# TODO: Change values to your database setup information
-database_setup = {
-    "database_name_production" : "agency",
-    "user_name" : "postgres", # default postgres user name
-    "password" : "test123", # if applicable. If no password, just type in None
-    "port" : "localhost:5432" # default postgres port
-}
-
-# TODO: Change values with data from your Auth0 Dashboard
 auth0_config = {
     "AUTH0_DOMAIN" : "fsnd-matthew.eu.auth0.com",
     "ALGORITHMS" : ["RS256"],
