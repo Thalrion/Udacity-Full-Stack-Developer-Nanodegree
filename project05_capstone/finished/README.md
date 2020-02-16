@@ -87,9 +87,8 @@ Ran 25 tests in 18.132s
 OK
 
 ```
-
 ## API Documentation
-<a name="api-documentaton"></a>
+<a name="api"></a>
 
 Here you can find all existing endpoints, which methods can be used, how to work with them & example responses you´ll get.
 
@@ -577,18 +576,16 @@ If you want to access the real, temporary API, bearer tokens for all 3 roles are
 They are 3 Roles with distinct permission sets:
 
 1. Casting Assistant:
-  1. GET /actors (view:actors): Can see all actors
-  2. GET /movies (view:movies): Can see all movies
-2. Casting Director
-everything from Casting Assistant plus
-  1. POST /actors (create:actors): Can create new Actors
-  2. PATCH /actors (edit:actors): Can edit existing Actors
-  3. DELETE /actors (delete:actors): Can remove existing Actors from database
-  4. PATCH /movies (edit:movies): Can edit existing Movies
-3. Exectutive Dircector
-everything from Casting Director plus
-  1. POST /movies (create:movies): Can create new Movies
-  2. DELETE /movies (delete:movies): Can remove existing Motives from database
+  - GET /actors (view:actors): Can see all actors
+  - GET /movies (view:movies): Can see all movies
+2. Casting Director (everything from Casting Assistant plus)
+  - POST /actors (create:actors): Can create new Actors
+  - PATCH /actors (edit:actors): Can edit existing Actors
+  - DELETE /actors (delete:actors): Can remove existing Actors from database
+  - PATCH /movies (edit:movies): Can edit existing Movies
+3. Exectutive Dircector (everything from Casting Director plus)
+  - POST /movies (create:movies): Can create new Movies
+  - DELETE /movies (delete:movies): Can remove existing Motives from database
 
 In your API Calls, add them as Header, with `Authorization` as key and the `Bearer token` as value. Don´t forget to also
 prepend `Bearer` to the token (seperated by space).
