@@ -193,7 +193,6 @@ def requires_auth(permission=''):
         @wraps(f)
         def wrapper(*args, **kwargs):
             token = get_token_auth_header()
-            print(token)
             try:
                 payload = verify_decode_jwt(token)
             except:
@@ -201,7 +200,6 @@ def requires_auth(permission=''):
                     'code': 'unauthorized',
                     'description': 'Permissions not found'
                 }, 401)
-            print(payload)
             check_permissions(permission, payload)
             return f(payload, *args, **kwargs)
         return wrapper

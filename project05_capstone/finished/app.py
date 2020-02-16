@@ -43,8 +43,8 @@ def create_app(test_config=None):
       '''
       try:
           # Return message contained in error, if possible
-          return error['description']
-      except TypeError:
+          return error.description['message']
+      except:
           # otherwise, return given default text
           return default_text
 
@@ -185,10 +185,6 @@ def create_app(test_config=None):
     age = body.get('age', actor_to_update.age)
     gender = body.get('gender', actor_to_update.gender)
 
-    # abort if it would make no sense to make an update
-    if actor_to_update.name == name & actor_to_update.age == age & actor_to_update.gender == gender:
-      abort(422, {'message': 'provided field values are already set. No update needed.'})
-
     # Set new field values
     actor_to_update.name = name
     actor_to_update.age = age
@@ -234,7 +230,7 @@ def create_app(test_config=None):
     # Return success and id from deleted actor
     return jsonify({
       'success': True,
-      'delete': actor_id
+      'deleted': actor_id
     })
 
   #----------------------------------------------------------------------------#
@@ -340,10 +336,6 @@ def create_app(test_config=None):
     title = body.get('title', movie_to_update.title)
     release_date = body.get('release_date', movie_to_update.release_date)
 
-    # abort if it would make no sense to make an update
-    if movie_to_update.title == title & movie_to_update.release_date == release_date:
-      abort(422, {'message': 'provided field values are already set. No update needed.'})
-
     # Set new field values
     movie_to_update.title = title
     movie_to_update.release_date = release_date
@@ -360,7 +352,7 @@ def create_app(test_config=None):
 
   @app.route('/movies/<movie_id>', methods=['DELETE'])
   @requires_auth('delete:movies')
-  def delete_movies(movie_id, payload):
+  def delete_movies(payload, movie_id):
     """Delete an existing Movie
 
     Tested by:
@@ -376,7 +368,7 @@ def create_app(test_config=None):
       abort(400, {'message': 'please append an movie id to the request url.'})
   
     # Find movie which should be deleted by id
-    movie_to_delete = Movie.query.filter(Movie.id == Movie).one_or_none()
+    movie_to_delete = Movie.query.filter(Movie.id == movie_id).one_or_none()
 
     # If no movie with given id could found, abort 404
     if not movie_to_delete:
@@ -388,7 +380,7 @@ def create_app(test_config=None):
     # Return success and id from deleted movie
     return jsonify({
       'success': True,
-      'delete': movie_id
+      'deleted': movie_id
     })
 
   #----------------------------------------------------------------------------#
@@ -424,8 +416,8 @@ def create_app(test_config=None):
       return jsonify({
                       "success": False, 
                       "error": AuthError.status_code,
-                      "message": get_error_message(AuthError.error, "authentification fails")
-                      }), 401
+                      "message": AuthError.error['description']
+                      }), AuthError.status_code
 
 
   # After every endpoint has been created, return app
@@ -434,4 +426,4 @@ def create_app(test_config=None):
 APP = create_app()
 
 if __name__ == '__main__':
-    APP.run(host='0.0.0.0', port=8080, debug=False)
+    APP.run(host='0.0.0.0', port=8080, debug=True)

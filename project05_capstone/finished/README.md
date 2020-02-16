@@ -503,3 +503,6 @@ All API Endpoints are decorated with Auth0 permissions. To use the project local
 5. Create & assign all neede permissions accordingly 
 6. After you created all permissions this app needs, go back to `Users and Roles` => `Roles` and select the role you recently created.
 6. Under `Permissions`, assign all permissions you want this role to have. 
+
+### Auth0 for to use existing API
+If you want to access the real, temporary API, bearer tokens for all 3 roles are included in the `config.py` file
