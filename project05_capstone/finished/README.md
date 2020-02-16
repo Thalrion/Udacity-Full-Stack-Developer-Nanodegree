@@ -1,4 +1,15 @@
-## FSND: Capstone Project
+# FSND: Capstone Project
+
+## Content
+
+1. [Motivation](#motivation)
+2. [Notes to Project Reviewer](#notes)
+3. [Start Project locally](#start-locally)
+4. [API Documentation](#api)
+5. [Authentification](#authentification)
+
+<a name="motivation"></a>
+## Motivations & Covered Topics
 
 This is the last project of the `Udacity-Full-Stack-Nanodegree` Course.
 It covers following technical topics in 1 app:
@@ -7,8 +18,32 @@ It covers following technical topics in 1 app:
 2. API to performance CRUD Operations on database with `Flask` (see `app.py`)
 3. Automated testing with `Unittest` (see `test_app`)
 4. Authorization & Role based Authentification with `Auth0` (see `auth.py`)
-5. Deployment on `Heroko` (see `setup.sh`)
+5. Deployment on `Heroku`
 
+<a name="notes"></a>
+## Notes to Project Reviewer
+
+You can use `Postman` to test my API endpoints with following URL and Bearer tokens.
+Additionally, you can follow [these steps](#start-locally) and simply run all tests included in `test_app.py`.
+
+App URL:
+
+**_https://artist-capstone-fsnd-matthew.herokuapp.com_**
+
+Authentification for 3 roles:
+They are valid until 17.02.2020 15:45 UTC (24 hours after submission)
+
+1. Casting Assistant: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik16azVRVUk0TXpSR04wSXhOVU13TkRrME16QXdNMFpHTmtFMU1VWXdPRUpCTmpnMFJrVTBSZyJ9.eyJpc3MiOiJodHRwczovL2ZzbmQtbWF0dGhldy5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU0N2VmNTg3ZWY5YjEwZjA0ZmQ5M2MzIiwiYXVkIjoiTXVzaWMiLCJpYXQiOjE1ODE4NjM2MTMsImV4cCI6MTU4MTk1MDAxMywiYXpwIjoiVGh2aG9mdmtkRTQwYlEzTkMzSzdKdFdSSzdSMzFOZDciLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbInJlYWQ6YWN0b3JzIiwicmVhZDptb3ZpZXMiXX0.jajc2ZjBofqvSv7b6qXSm8cccVu9RNQsHAsvjsSnxq0K7vnsDibuGfIhFoqxxA1Bw_Nd9b5xZHmNa61rQieVV--UeRnNkjC1O-uqVkM2zGrw7xJ3vO3M0OLpLLcfW2kWkcR5dJXSCZk2KIb0ZSY-9GIoci8hEbbVaxCLIpUGNZnJAOD6Fm56gVq1ymS_bf1L_JoovJdsua4eZI2uapnFWIW8m92zt-pHe5Q6HxOHdqiGVZGP_gd5sJDt1c8fMtqD0L_YAHXIvS_1JN-hAOQLs9FCt3s3NDdy72APld-Beci9LV82Eq-Mmbh_YIdfujiYOBkUx2zFpgqdge_czUWDgQ`
+
+2. Casting Director: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik16azVRVUk0TXpSR04wSXhOVU13TkRrME16QXdNMFpHTmtFMU1VWXdPRUpCTmpnMFJrVTBSZyJ9.eyJpc3MiOiJodHRwczovL2ZzbmQtbWF0dGhldy5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU0N2VmOTA3ZWY5YjEwZjA0ZmQ5M2ZiIiwiYXVkIjoiTXVzaWMiLCJpYXQiOjE1ODE4NjM2OTksImV4cCI6MTU4MTk1MDA5OSwiYXpwIjoiVGh2aG9mdmtkRTQwYlEzTkMzSzdKdFdSSzdSMzFOZDciLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImNyZWF0ZTphY3RvcnMiLCJkZWxldGU6YWN0b3JzIiwiZWRpdDphY3RvcnMiLCJlZGl0Om1vdmllcyIsInJlYWQ6YWN0b3JzIiwicmVhZDptb3ZpZXMiXX0.IH-B_ZHd9b7vPjFCVrWnet5x-dwVhHOn7Q1du3k7bqfgrcI243bSsTCI6Z5M_uBkdYpqzBEIfBVBGjHEz-i-_y9_3AvWA1rAVruIy1UPbMQ5g1M3dbaj30oYjqmtNGlzGrpKpb7VD90P8NIvKfycglNz26aaaI-oic2S7FZmDmA1lec3bPuoAZVwFYlkAjVIkXqdrHnmq1p3VyUm8L4ZZdTBLyEOEIHoro1zi9YiJ_Ygsv4IaKZqnhm9J4mhDuvT9GDrn5QRXH5GnZx1maOJVxomdBjSxoKrZJKz8QglDaBp2dK41NxwVpbI6NwN8bs2Akh80pirJnMixbfEisyfrg`
+
+3. Executive Direcor: `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik16azVRVUk0TXpSR04wSXhOVU13TkRrME16QXdNMFpHTmtFMU1VWXdPRUpCTmpnMFJrVTBSZyJ9.eyJpc3MiOiJodHRwczovL2ZzbmQtbWF0dGhldy5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU0N2VmYzc2N2YxYmEwZWJiNDIwMTYzIiwiYXVkIjoiTXVzaWMiLCJpYXQiOjE1ODE4NjM1MzcsImV4cCI6MTU4MTk0OTkzNywiYXpwIjoiVGh2aG9mdmtkRTQwYlEzTkMzSzdKdFdSSzdSMzFOZDciLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImNyZWF0ZTphY3RvcnMiLCJjcmVhdGU6bW92aWVzIiwiZGVsZXRlOmFjdG9ycyIsImRlbGV0ZTptb3ZpZXMiLCJlZGl0OmFjdG9ycyIsImVkaXQ6bW92aWVzIiwicmVhZDphY3RvcnMiLCJyZWFkOm1vdmllcyJdfQ.EPOG3bi_L8tfEgcKntjhJYWI56L6cl1vdkXMI9fQr0uMAdthpuFjIKpSBNVdvb2nAHEy-APDkfsmHUeZcXqjhJsRwF4_u74pKqqWIE0gSWRVThT0w_GuR4CCQlbRkliEKAVOFjLTQTA5XP6oj5dfNDrM-Kar5uNImaXnxa9Jh3oFZKlN9mChob3nGtxRq6Zue1q319vKxQwhEPFrUBIVexn74UKoR3jHjvl-jafHZPnpPe4sxKsL502fHRLeiXWBgzLQoso_nkl6AUsfiHB7M59TVP7QHFch0BuOYsVf0WaG7fQQ0kguUTkOTEeJSQUZQBkPvlrARgMQXS4q6NJHVQ`
+
+For Instructions on how to use Authentification, follow [this link](#authentification-bearer).
+
+`test_app.py` has a comment section on top to list existing `RBAC Tests` for all roles.
+
+<a name="start-locally"></a>
 ## Start Project locally
 
 Make sure you `cd` into the correct folder (with all app files) before following the setup steps.
@@ -19,14 +54,18 @@ To start and run the local development server,
 
 1. Initialize and activate a virtualenv:
   ```bash
-  $ virtualenv --no-site-packages env
-  $ source env/bin/activate
+  $ virtualenv --no-site-packages env_capstone
+  $ source env_capstone/scripts/activate
   ```
 
 2. Install the dependencies:
 ```bash
 $ pip install -r requirements.txt
 ```
+
+Running this project locally means that it can´t access `Herokus` env variables.
+To fix this, you need to edit a few informations in `config.py`, so it can
+correctly connect to a local database
 
 3. Change database config so it can connect to your local postgres database
 - Open `config.py` with your editor of choice. 
@@ -43,15 +82,14 @@ database_setup = {
  - Just change `user_name`, `password` and `port` to whatever you choose while installing postgres.
 >_tip_: `user_name` usually defaults to `postgres` and `port` always defaults to `localhost:5432` while installing postgres, most of the time you just need to change the `password`.
 
-1. Setup Auth0
+4. Setup Auth0
 If you only want to test the API (i.e. Project Reviewer), you can
-simply take the existing bearer tokens in `config.py`. They should
-be valid until 23/02/2020.
+simply take the existing bearer tokens in `config.py`.
 
 If you already know your way around `Auth0`, just insert your data 
 into `config.py` => auth0_config.
 
-If you are new, follow [these](#authentification) steps.
+FYI: Here are the steps I followed to enable [authentification](#authentification).
 
 5. Run the development server:
   ```bash 
@@ -83,11 +121,11 @@ Additionally, common pitfalls & error messages are explained, if applicable.
 
 ### Base URL
 
-Since this API is not hosted on a specific domain, it can only be accessed when
-`flask` is run locally. To make requests to the API via `curl` or `postman`,
-you need to use the default domain on which the flask server is running.
+**_https://artist-capstone-fsnd-matthew.herokuapp.com_**
 
-**_http://127.0.0.1:8080/_**
+### Authentification
+
+Please see [API Authentification](#authentification-bearer)
 
 ### Available Endpoints
 
@@ -128,7 +166,7 @@ Each ressource documentation is clearly structured:
 Query paginated actors.
 
 ```bash
-$ curl -X GET http://127.0.0.1:8080/actors?page1
+$ curl -X GET https://artist-capstone-fsnd-matthew.herokuapp.com/actors?page1
 ```
 - Fetches a list of dictionaries of examples in which the keys are the ids with all available fields
 - Request Arguments: 
@@ -161,7 +199,7 @@ $ curl -X GET http://127.0.0.1:8080/actors?page1
 If you try fetch a page which does not have any actors, you will encounter an error which looks like this:
 
 ```bash
-$ curl -X GET http://127.0.0.1:8080/actors?page123124
+$ curl -X GET https://artist-capstone-fsnd-matthew.herokuapp.com/actors?page123124
 ```
 
 will return
@@ -180,7 +218,7 @@ will return
 Insert new actor into database.
 
 ```bash
-$ curl -X POST http://127.0.0.1:8080/actors
+$ curl -X POST https://artist-capstone-fsnd-matthew.herokuapp.com/actors
 ```
 
 - Request Arguments: **None**
@@ -206,7 +244,7 @@ If you try to create a new actor without a requiered field like `name`,
 it will throw a `422` error:
 
 ```bash
-$ curl -X GET http://127.0.0.1:8080/actors?page123124
+$ curl -X GET https://artist-capstone-fsnd-matthew.herokuapp.com/actors?page123124
 ```
 
 will return
@@ -225,7 +263,7 @@ will return
 Edit an existing Actor
 
 ```bash
-$ curl -X PATCH http://127.0.0.1:8080/actors/1
+$ curl -X PATCH https://artist-capstone-fsnd-matthew.herokuapp.com/actors/1
 ```
 
 - Request Arguments: **integer** `id from actor you want to update`
@@ -246,16 +284,23 @@ $ curl -X PATCH http://127.0.0.1:8080/actors/1
 #### Example response
 ```js
 {
-    "updated": 1,
-    "success": true
+    "actor": [
+        {
+            "age": 30,
+            "gender": "Other",
+            "id": 1,
+            "name": "Test Actor"
+        }
+    ],
+    "success": true,
+    "updated": 1
 }
-
 ```
 #### Errors
 If you try to update an actor with an invalid id it will throw an `404`error:
 
 ```bash
-$ curl -X PATCH http://127.0.0.1:8080/actors/125
+$ curl -X PATCH https://artist-capstone-fsnd-matthew.herokuapp.com/actors/125
 ```
 
 will return
@@ -283,7 +328,7 @@ Additionally, trying to update an Actor with already existing field values will 
 Delete an existing Actor
 
 ```bash
-$ curl -X DELETE http://127.0.0.1:8080/actors/1
+$ curl -X DELETE https://artist-capstone-fsnd-matthew.herokuapp.com/actors/1
 ```
 
 - Request Arguments: **integer** `id from actor you want to delete`
@@ -305,7 +350,7 @@ $ curl -X DELETE http://127.0.0.1:8080/actors/1
 If you try to delete actor with an invalid id, it will throw an `404`error:
 
 ```bash
-$ curl -X DELETE http://127.0.0.1:8080/actors/125
+$ curl -X DELETE https://artist-capstone-fsnd-matthew.herokuapp.com/actors/125
 ```
 
 will return
@@ -324,7 +369,7 @@ will return
 Query paginated movies.
 
 ```bash
-$ curl -X GET http://127.0.0.1:8080/movies?page1
+$ curl -X GET https://artist-capstone-fsnd-matthew.herokuapp.com/movies?page1
 ```
 - Fetches a list of dictionaries of examples in which the keys are the ids with all available fields
 - Request Arguments: 
@@ -356,7 +401,7 @@ $ curl -X GET http://127.0.0.1:8080/movies?page1
 If you try fetch a page which does not have any movies, you will encounter an error which looks like this:
 
 ```bash
-$ curl -X GET http://127.0.0.1:8080/movies?page123124
+$ curl -X GET https://artist-capstone-fsnd-matthew.herokuapp.com/movies?page123124
 ```
 
 will return
@@ -375,7 +420,7 @@ will return
 Insert new Movie into database.
 
 ```bash
-$ curl -X POST http://127.0.0.1:8080/movies
+$ curl -X POST https://artist-capstone-fsnd-matthew.herokuapp.com/movies
 ```
 
 - Request Arguments: **None**
@@ -399,7 +444,7 @@ If you try to create a new movie without a requiered field like `name`,
 it will throw a `422` error:
 
 ```bash
-$ curl -X GET http://127.0.0.1:8080/movies?page123124
+$ curl -X GET https://artist-capstone-fsnd-matthew.herokuapp.com/movies?page123124
 ```
 
 will return
@@ -418,7 +463,7 @@ will return
 Edit an existing Movie
 
 ```bash
-$ curl -X PATCH http://127.0.0.1:8080/movies/1
+$ curl -X PATCH https://artist-capstone-fsnd-matthew.herokuapp.com/movies/1
 ```
 
 - Request Arguments: **integer** `id from movie you want to update`
@@ -437,7 +482,14 @@ $ curl -X PATCH http://127.0.0.1:8080/movies/1
 #### Example response
 ```js
 {
-    "updated": 1,
+    "created": 1,
+    "movie": [
+        {
+            "id": 1,
+            "release_date": "Sun, 16 Feb 2020 00:00:00 GMT",
+            "title": "Test Movie 123"
+        }
+    ],
     "success": true
 }
 
@@ -446,7 +498,7 @@ $ curl -X PATCH http://127.0.0.1:8080/movies/1
 If you try to update an movie with an invalid id it will throw an `404`error:
 
 ```bash
-$ curl -X PATCH http://127.0.0.1:8080/movies/125
+$ curl -X PATCH https://artist-capstone-fsnd-matthew.herokuapp.com/movies/125
 ```
 
 will return
@@ -474,7 +526,7 @@ Additionally, trying to update an Movie with already existing field values will 
 Delete an existing movie
 
 ```bash
-$ curl -X DELETE http://127.0.0.1:8080/movies/1
+$ curl -X DELETE https://artist-capstone-fsnd-matthew.herokuapp.com/movies/1
 ```
 
 - Request Arguments: **integer** `id from movie you want to delete`
@@ -496,7 +548,7 @@ $ curl -X DELETE http://127.0.0.1:8080/movies/1
 If you try to delete movie with an invalid id, it will throw an `404`error:
 
 ```bash
-$ curl -X DELETE http://127.0.0.1:8080/movies/125
+$ curl -X DELETE https://artist-capstone-fsnd-matthew.herokuapp.com/movies/125
 ```
 
 will return
@@ -536,9 +588,38 @@ All API Endpoints are decorated with Auth0 permissions. To use the project local
 2. First, create a new Role under `Users and Roles` => `Roles` => `Create Roles`
 3. Give it a descriptive name like `Casting Assistant`.
 4. Go back to the API Tab and find your newly created API. Click on Permissions.
-5. Create & assign all neede permissions accordingly 
+5. Create & assign all needed permissions accordingly 
 6. After you created all permissions this app needs, go back to `Users and Roles` => `Roles` and select the role you recently created.
 6. Under `Permissions`, assign all permissions you want this role to have. 
 
-### Auth0 for to use existing API
-If you want to access the real, temporary API, bearer tokens for all 3 roles are included in the `config.py` file
+# <a name="authentification-bearer"></a>
+### Auth0 to use existing API
+If you want to access the real, temporary API, bearer tokens for all 3 roles are included in the `config.py` file.
+
+## Existing Roles
+
+They are 3 Roles with distinct permission sets:
+
+1. Casting Assistant:
+  1. GET /actors (view:actors): Can see all actors
+  2. GET /movies (view:movies): Can see all movies
+2. Casting Director
+everything from Casting Assistant plus
+  1. POST /actors (create:actors): Can create new Actors
+  2. PATCH /actors (edit:actors): Can edit existing Actors
+  3. DELETE /actors (delete:actors): Can remove existing Actors from database
+  4. PATCH /movies (edit:movies): Can edit existing Movies
+3. Exectutive Dircector
+everything from Casting Director plus
+  1. POST /movies (create:movies): Can create new Movies
+  2. DELETE /movies (delete:movies): Can remove existing Motives from database
+
+In your API Calls, add them as Header, with `Authorization` as key and the `Bearer token` as value. Don´t forget to also
+prepend `Bearer` to the token (seperated by space).
+
+For example: (Bearer token for `Executive Director`)
+```js
+{
+    "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik16azVRVUk0TXpSR04wSXhOVU13TkRrME16QXdNMFpHTmtFMU1VWXdPRUpCTmpnMFJrVTBSZyJ9.eyJpc3MiOiJodHRwczovL2ZzbmQtbWF0dGhldy5ldS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU0N2VmYzc2N2YxYmEwZWJiNDIwMTYzIiwiYXVkIjoiTXVzaWMiLCJpYXQiOjE1ODE4NjI0NjksImV4cCI6MTU4MTg2OTY2OSwiYXpwIjoiVGh2aG9mdmtkRTQwYlEzTkMzSzdKdFdSSzdSMzFOZDciLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImNyZWF0ZTphY3RvcnMiLCJjcmVhdGU6bW92aWVzIiwiZGVsZXRlOmFjdG9ycyIsImRlbGV0ZTptb3ZpZXMiLCJlZGl0OmFjdG9ycyIsImVkaXQ6bW92aWVzIiwicmVhZDphY3RvcnMiLCJyZWFkOm1vdmllcyJdfQ.iScamWOFNx9pjiVZhsvPzDoRi6EraZaxWg-WMj80HNW_-dchkOymnKA7OOhPQ8svLc9-wViLlCT-ySnupZ-209cIBVHSA_slncSP-lzEM6NKbBmDEETTQ1oxv2jTH-JL72eLhyAWUsmSIZDmEab1hln1yWEN7mUnn0nZJfxCRCs89h5EGJzXS2v8PbAjq9Mu7wFsrioEMx_PGWzSM0r5WIrKBvpXRy0Jm-vssZl4M1akDHIL5Shcfp_Bfnarc2OLOMvdQVHVDEWhrbFSnfCENLDxkcmB18VnOedJAuY_C88YRUfY2wQAOPux8RVuqIb5KxTg4YP7kiDcBUKXEnhL9A"
+}
+```

@@ -93,47 +93,16 @@ Used tech stack:
 
 ### Project 5: Capstone
 
-est. time spent: `14 hours` (no precourses)
+est. time spent: `20 hours` (no precourses)
+
+This is the last project of the `Udacity-Full-Stack-Nanodegree` Course.
+It covers following technical topics in 1 app:
+
+1. Database modeling with `postgres` & `sqlalchemy` (see `models.py`)
+2. API to performance CRUD Operations on database with `Flask` (see `app.py`)
+3. Automated testing with `Unittest` (see `test_app`)
+4. Authorization & Role based Authentification with `Auth0` (see `auth.py`)
+5. Deployment on `Heroku` (see `setup.sh`)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-++

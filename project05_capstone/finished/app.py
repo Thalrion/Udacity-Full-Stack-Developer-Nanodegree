@@ -346,7 +346,7 @@ def create_app(test_config=None):
     # Return success, updated movie id and updated movie as formatted list
     return jsonify({
       'success': True,
-      'created': movie_to_update.id,
+      'edited': movie_to_update.id,
       'movie' : [movie_to_update.format()]
     })
 
