@@ -90,7 +90,7 @@ pycodestyle==2.3.1
 pycparser==2.17
 pyflakes==1.6.0
 pygame==1.9.3
-Pygments==2.2.0
+Pygments==2.7.4
 PyJWT==1.4.2
 pylint==1.7.2
 pymongo==2.8
